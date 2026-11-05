@@ -400,6 +400,85 @@ h1,h2,h3,.mark,.stat b,.yr .y,.card .metric,.sv .r,.pz-nums b,.stage .tag b,.her
 .hero .wrap{position:relative;z-index:0}
 :focus-visible{outline:2px solid var(--neon2);box-shadow:0 0 0 4px color-mix(in srgb,var(--neon2) 25%,transparent)}
 
+
+/* ===== Hover interactivo en todos los bloques ===== */
+.hv{position:relative;--mx:50%;--my:50%;--rx:0deg;--ry:0deg;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s,background-color .35s,color .25s}
+.hv::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;z-index:0;
+  background:radial-gradient(220px circle at var(--mx) var(--my),color-mix(in srgb,var(--neon2) 16%,transparent),transparent 70%)}
+.hv>*{position:relative;z-index:1}
+@media (hover:hover){
+  .hv:hover::after{opacity:1}
+  /* tarjetas: elevación + inclinación 3D + borde neón */
+  .ev.hv:hover,.sv.hv:hover,.ed.hv:hover,.levels.hv:hover,.pz-nums div.hv:hover{
+    transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-5px);
+    border-color:color-mix(in srgb,var(--neon) 60%,var(--line));
+    box-shadow:0 22px 44px -26px rgba(10,20,50,.55),0 0 0 1px color-mix(in srgb,var(--neon) 35%,transparent),0 0 30px -10px color-mix(in srgb,var(--neon2) 70%,transparent)}
+  .levels.hv:hover{transform:translateY(-4px)}
+  .ev.hv:hover h3,.sv.hv:hover h3,.ed.hv:hover h3{color:var(--accent)}
+  .sv.key.hv:hover h3{color:var(--glow)}
+  .ev .chip{transition:transform .3s,box-shadow .3s}
+  .ev.hv:hover .chip{transform:translateY(-1px);box-shadow:0 0 14px -3px color-mix(in srgb,var(--neon) 80%,transparent)}
+  .svl li{transition:transform .25s,border-color .25s,color .25s,box-shadow .25s}
+  .svl li:hover{transform:translateY(-2px);border-color:var(--neon);color:var(--accent);box-shadow:0 0 12px -4px var(--neon)}
+  /* formación: la barra lateral se ilumina y crece */
+  .ed{border-radius:0 12px 12px 0;border:1px solid transparent;border-left:2px solid var(--line)}
+  .ed.hv:hover{background:var(--surface);border-left:4px solid var(--accent)}
+  .ed small{transition:letter-spacing .3s}
+  .ed.hv:hover small{letter-spacing:.08em}
+  /* recorrido: el año de la fila se enciende */
+  .yr .y{transition:color .3s,text-shadow .3s,transform .3s}
+  .yr.on .y{color:var(--accent);transform:scale(1.18);text-shadow:0 0 16px color-mix(in srgb,var(--neon) 60%,transparent)}
+  /* cifras */
+  .stat.hv:hover{background:color-mix(in srgb,var(--band-ink) 6%,transparent)}
+  .stat b{transition:transform .35s cubic-bezier(.2,.8,.2,1),text-shadow .35s,color .35s;transform-origin:left bottom}
+  .stat.hv:hover b{transform:scale(1.1);color:#fff;text-shadow:0 0 22px color-mix(in srgb,var(--glow) 80%,transparent)}
+  .stat.hv:hover span{color:var(--band-ink)}
+  .pz-nums div.hv:hover b{color:var(--accent)}
+  /* embudo, sectores, etiquetas */
+  .funnel div.hv:hover{transform:translateY(-4px);background:color-mix(in srgb,var(--accent) 16%,var(--accent-soft));box-shadow:0 10px 24px -14px var(--accent)}
+  .sectors span,.tags i{transition:transform .25s,border-color .25s,color .25s,box-shadow .25s,background .25s}
+  .sectors span:hover,.tags i:hover{transform:translateY(-2px);border-color:var(--neon);color:var(--accent);background:var(--surface);box-shadow:0 0 14px -5px var(--neon)}
+  /* método */
+  .step{border-radius:10px;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .35s,box-shadow .35s}
+  .step:hover{transform:translateY(-4px);background:var(--surface);box-shadow:0 16px 34px -24px rgba(10,20,50,.5)}
+  .step:hover h3{color:var(--accent)}
+  /* stack: grupos y niveles */
+  .groups>div.hv{border-radius:12px;padding:12px 14px;margin:-12px -14px}
+  .groups>div.hv:hover{background:var(--surface);box-shadow:0 0 0 1px color-mix(in srgb,var(--neon) 35%,var(--line)),0 14px 30px -22px rgba(10,20,50,.5)}
+  .groups>div.hv:hover h3{color:var(--neon)}
+  .groups>div.hv:hover p{color:var(--ink)}
+  .lv{transition:padding .3s,background .3s;border-radius:8px}
+  .lv:hover{background:var(--accent-soft);padding-inline:8px}
+  .lv .m i{transition:filter .3s,box-shadow .3s;background-image:linear-gradient(90deg,var(--accent),var(--neon2));background-size:200% 100%}
+  .lv:hover .m i{animation:barflow 1.2s linear infinite;box-shadow:0 0 10px var(--neon2)}
+  .lv:hover small{color:var(--accent)}
+  /* contacto */
+  .cline{transition:padding .3s,background .3s;border-radius:10px}
+  .cline:hover{padding-inline:12px;background:color-mix(in srgb,var(--band-ink) 6%,transparent)}
+  .cline:hover small{color:var(--glow)}
+  /* cabeceras de sección */
+  .sec-head h2 em{transition:text-shadow .4s}
+  .sec-head:hover h2 em{text-shadow:0 0 24px color-mix(in srgb,var(--neon) 55%,transparent)}
+}
+@keyframes barflow{to{background-position:-200% 0}}
+
+
+/* Iconos de marca: Propulsia y Reseña Fácil */
+.pmark{display:inline-flex;align-items:center;justify-content:center;width:1.9em;height:1.9em;border-radius:.55em;background:#1B1F5E;margin-right:.55em;flex:none;vertical-align:middle;box-shadow:0 0 0 1px #2c3380 inset;transition:transform .3s}
+.pmark svg{width:58%;height:58%;transition:transform .3s}
+.pmark.sm{width:1.5em;height:1.5em;border-radius:.45em;margin-right:.1em}
+a:hover .pmark svg,.ev:hover .pmark svg,.eyebrow:hover .pmark svg{transform:translate(2px,-2px)}
+.ev h3 .pmark{font-size:.8em}
+.cline .pmark{font-size:.8rem;margin-right:10px}
+.rfico{width:1.5em;height:1.5em;object-fit:contain;vertical-align:-.38em;margin-right:.4em;transition:transform .35s}
+.sv:hover .rfico,.ev:hover .rfico{transform:rotate(-8deg) scale(1.12)}
+
+/* Recuento de cifras */
+.stat b.counting{opacity:.55;filter:blur(.6px);transition:opacity 2s ease,filter 2s ease}
+.stat b.counting,.stat b.counted{transition:opacity 1.6s ease,filter 1.6s ease,transform .35s cubic-bezier(.2,.8,.2,1),text-shadow .35s,color .35s}
+.stat b.counted{opacity:1;filter:none;animation:settle .9s ease-out}
+@keyframes settle{0%{text-shadow:0 0 0 transparent}35%{text-shadow:0 0 22px color-mix(in srgb,var(--glow) 75%,transparent)}100%{text-shadow:0 0 0 transparent}}
 /* Motion */
 .rv{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
 .js .rv.pre{opacity:.001;transform:translateY(18px)}
@@ -473,7 +552,7 @@ body{margin:0}
   <div class="wrap">
     <div class="pz-top rv">
       <div class="sec-head" style="margin:0">
-        <div class="eyebrow">Mi empresa · Propulsia</div>
+        <div class="eyebrow"><span class="pmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M19 5h-9M19 5v9"/></svg></span>Mi empresa · Propulsia</div>
         <h2>Propulsa tu negocio. <em>La IA hace el resto.</em></h2>
         <p class="lead">Propulsia es la empresa de servicios que dirijo: inteligencia artificial para negocios reales. Nueve servicios: webs que venden, reputación en Google, chatbots, recepcionista por voz, avatares para redes, captación, carta digital, software a medida y consultoría, con un único equipo y precios cerrados. Diseño, construyo y gestiono cada servicio de principio a fin.</p>
       </div>
@@ -484,8 +563,8 @@ body{margin:0}
       </div>
     </div>
     <div class="svc rv">
-      <div class="sv key"><span class="k">Web</span><h3>Páginas web</h3><p>Diseño a medida de la marca, adaptado a móvil, con textos que consiguen llamadas, reservas o ventas, SEO y velocidad de carga.</p><span class="r">200+ webs publicadas</span></div>
-      <div class="sv key"><span class="k">Reputación</span><h3>Reseña Fácil</h3><p>Más reseñas reales y mejor nota en Google Business, con carteles QR y NFC y una modalidad con sorteo que suma reseñas y seguidores a la vez.</p><span class="r">Mejora garantizada en 3 meses</span></div>
+      <div class="sv"><span class="k">Web</span><h3>Páginas web</h3><p>Diseño a medida de la marca, adaptado a móvil, con textos que consiguen llamadas, reservas o ventas, SEO y velocidad de carga.</p><span class="r">200+ webs publicadas</span></div>
+      <div class="sv"><span class="k">Reputación</span><h3><img class="rfico" src="resenafacil.webp" alt="" aria-hidden="true">Reseña Fácil</h3><p>Más reseñas reales y mejor nota en Google Business, con carteles QR y NFC y una modalidad con sorteo que suma reseñas y seguidores a la vez.</p><span class="r">Mejora garantizada en 3 meses</span></div>
       <div class="sv"><span class="k">Atención</span><h3>Chatbot de WhatsApp</h3><p>Responde 24/7 consultando en tiempo real la oferta del negocio, cualifica cada solicitud y deriva a una persona solo cuando hace falta.</p><span class="r">Hasta el 78 % de la atención</span></div>
       <div class="sv"><span class="k">Contenido</span><h3>Avatares IA</h3><p>Avatar digital y voz clonada para publicar Reels, TikTok y Shorts cada semana sin grabar: guion, generación, edición y subtítulos.</p><span class="r">Hasta 20 vídeos al mes</span></div>
       <div class="sv"><span class="k">Captación</span><h3>Agenda-Llena</h3><p>Sistema integral para captar, convertir y fidelizar: anuncios, asistentes de WhatsApp y voz, recordatorios, CRM y reactivación de clientes.</p><span class="r">Combate cinco fugas de clientes</span></div>
@@ -512,7 +591,7 @@ body{margin:0}
       <div class="wall" id="wall"></div>
     </div>
     <div class="pz-foot rv">
-      <a class="btn" href="https://propulsia.netlify.app/" target="_blank" rel="noopener">Visitar Propulsia <span class="arr">↗</span></a>
+      <a class="btn" href="https://propulsia.netlify.app/" target="_blank" rel="noopener"><span class="pmark sm" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M19 5h-9M19 5v9"/></svg></span>Visitar Propulsia <span class="arr">↗</span></a>
     </div>
   </div>
 </section>
@@ -608,7 +687,7 @@ body{margin:0}
       <div class="cline"><div><small>Email</small><span class="v" id="em">jesuscs025@gmail.com</span></div><button class="copy" data-copy="em" type="button">Copiar</button></div>
       <div class="cline"><div><small>Teléfono</small><span class="v" id="tel">+34 651 580 018</span></div><button class="copy" data-copy="tel" type="button">Copiar</button></div>
       <div class="cline"><div><small>Ubicación</small><span class="v">Armilla, Granada</span></div></div>
-      <div class="cline"><div><small>Agencia</small><a href="https://propulsia.netlify.app" target="_blank" rel="noopener">propulsia.netlify.app <span class="arr">↗</span></a></div></div>
+      <div class="cline"><div><small>Agencia</small><span class="pmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M19 5h-9M19 5v9"/></svg></span><a href="https://propulsia.netlify.app" target="_blank" rel="noopener">propulsia.netlify.app <span class="arr">↗</span></a></div></div>
     </div>
   </div>
 </section>
@@ -637,7 +716,7 @@ const P = [
  {n:'Activídate',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'App en Play Store',d:'App de ejercicio físico y actividad saludable para el día a día.',t:['App móvil','Salud']},
  {n:'BioDM2',top:1,logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'split',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'biodm2.es',url:'https://biodm2.es/',m:'I+D+i UGR · Vithas',d:'Web y app de ejercicio terapéutico para personas con diabetes tipo II, en consorcio público-privado UGR-Vithas.',t:['Web','App','Investigación']},
  {n:'App de BioDM2',logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'phone',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'play.google.com · BioDM2',url:'https://play.google.com/store/apps/details?id=com-HumanLabUGR.BioDM2',m:'App en Play Store',d:'App móvil del proyecto BioDM2 para acompañar el ejercicio terapéutico de personas con diabetes tipo II.',t:['App móvil','Salud','I+D+i']},
- {n:'Propulsia',cat:'plat',l:'center',c:W('#0D1630','#6E8BFF','#E6ECFF'),u:'propulsia.netlify.app',url:'https://propulsia.netlify.app',m:'Mi empresa de servicios de IA',d:'Diseño y desarrollo de la web de mi empresa: siete servicios con precios cerrados, sectores, método de trabajo y formulario de contacto.',t:['HTML/CSS','Netlify','Branding']},
+ {n:'Propulsia',logo:'propulsia.webp',lb:'#12254A',fit:'contain',cat:'plat',l:'center',c:W('#0D1630','#6E8BFF','#E6ECFF'),u:'propulsia.netlify.app',url:'https://propulsia.netlify.app',m:'Mi empresa de servicios de IA',d:'Diseño y desarrollo de la web de mi empresa: siete servicios con precios cerrados, sectores, método de trabajo y formulario de contacto.',t:['HTML/CSS','Netlify','Branding']},
  // Webs
  {n:'IRH Abogados',logo:'irh.webp',lb:'#2E2E2E',fit:'cover',cat:'web',l:'split',c:W('#F5F3EF','#8C6A2F','#1E1A14'),u:'irhabogados.es',url:'https://irhabogados.es',m:'SEO completo y páginas por especialidad',d:'Web del despacho con optimización SEO, Search Console, páginas por especialidad y perfil de Google Business.',t:['Web','SEO','Google Business']},
  {n:'Clínica Dental Apolonia',cat:'web',l:'split',c:W('#EFF8FB','#1C9BC4','#0B2630'),u:'apoloniadentalclinic.com',url:'https://www.apoloniadentalclinic.com/',m:'Reserva de citas online',d:'Web de clínica dental con tratamientos y reserva de citas.',t:['Web','Reservas']},
@@ -856,7 +935,8 @@ const TL = [
  ['2025',[['2025','IA y Big Data · AI Specialist · Ciberseguridad','Nebrija, Racks, UPC y Femxa']],[['2025 – 2026','Reseña Fácil','Plataforma propia de reputación y SEO local para negocios.','65 negocios']]],
  ['2026',[['Jul 2026','Máster en Inteligencia Artificial','UTAMED · Mejor expediente. TFM sobre IA agéntica de voz para automatizar citas (Vapi.ai, Gemini y n8n), nota 9 y mejor TFM de la edición','Mejor TFM']],[['2026','Propulsia','Dirijo Propulsia, mi empresa de servicios de IA para negocios, con Reseña Fácil incluido como uno de los 9 servicios que ofrezco:','9 servicios',['Páginas web','Reseña Fácil','Chatbot de WhatsApp','Recepcionista IA por voz','Avatares IA','Agenda-Llena','Carta Digital','Software a medida','Consultoría con sistema experto']]]],
 ];
-const ev=(e,pro)=>`<div class="ev${pro?' pro':''}"><small>${e[0]}</small><h3>${e[1]}</h3><p>${e[2]}</p>${e[4]?`<ul class="svl">${e[4].map(x=>`<li>${x}</li>`).join('')}</ul>`:''}${e[3]?`<span class="chip">${e[3]}</span>`:''}</div>`;
+const ICO={'Reseña Fácil':'<img class="rfico" src="resenafacil.webp" alt="" aria-hidden="true">','Propulsia':'<span class="pmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19L19 5M19 5h-9M19 5v9"/></svg></span>'};
+const ev=(e,pro)=>`<div class="ev${pro?' pro':''}"><small>${e[0]}</small><h3>${ICO[e[1]]||''}${e[1]}</h3><p>${e[2]}</p>${e[4]?`<ul class="svl">${e[4].map(x=>`<li>${x}</li>`).join('')}</ul>`:''}${e[3]?`<span class="chip">${e[3]}</span>`:''}</div>`;
 document.getElementById('tl').innerHTML = TL.map(([y,l,r],i)=>`<div class="yr rv"><div class="lane l">${l.map(e=>ev(e)).join('')}</div><div class="y${i===TL.length-1?' now':''}">${y}</div><div class="lane">${r.map(e=>ev(e,1)).join('')}</div></div>`).join('');
 // mobile: move year first in DOM order visually handled by grid; ensure lanes order
 if(matchMedia('(max-width:760px)').matches){document.querySelectorAll('.yr').forEach(r=>r.prepend(r.querySelector('.y')));}
@@ -883,6 +963,60 @@ document.addEventListener('pointerdown',e=>{
   d.style.left=(e.clientX-r.left)+'px'; d.style.top=(e.clientY-r.top)+'px'; el.appendChild(d); setTimeout(()=>d.remove(),650);
 });
 fxBind(); new MutationObserver(()=>fxBind()).observe(document.getElementById('pgrid'),{childList:true});
+
+// Hover interactivo: foco que sigue al ratón + inclinación 3D en tarjetas
+const HV='.ev,.sv,.ed,.stat,.pz-nums div,.funnel div,.groups>div,.levels';
+const TILT='.ev,.sv,.ed,.pz-nums div';
+if(matchMedia('(hover:hover)').matches){
+  document.querySelectorAll(HV).forEach(el=>{
+    el.classList.add('hv');
+    const tilt=!RM && el.matches(TILT);
+    el.addEventListener('pointermove',e=>{
+      const r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+      el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');
+      if(tilt){el.style.setProperty('--ry',((x/r.width-.5)*6).toFixed(2)+'deg');el.style.setProperty('--rx',((.5-y/r.height)*6).toFixed(2)+'deg');}
+    });
+    el.addEventListener('pointerleave',()=>{el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg');});
+  });
+  document.querySelectorAll('.yr').forEach(r=>r.querySelectorAll('.ev').forEach(ev=>{
+    ev.addEventListener('pointerenter',()=>r.classList.add('on'));
+    ev.addEventListener('pointerleave',()=>r.classList.remove('on'));
+  }));
+}
+
+// Cifras: recuento animado (2 s) cada vez que se carga la página
+(function(){
+  const els=[...document.querySelectorAll('.stat b')];
+  if(!els.length) return;
+  const items=els.map(el=>{
+    const txt=el.textContent.trim();
+    const m=txt.match(/^([^\d]*)([\d.,]+)(.*)$/);
+    if(!m) return null;
+    const raw=m[2], dec=raw.includes(',')?raw.split(',')[1].length:0;
+    const val=parseFloat(raw.replace(/\./g,'').replace(',','.'));
+    const fmt=new Intl.NumberFormat('es-ES',{minimumFractionDigits:dec,maximumFractionDigits:dec,useGrouping:val>=1000});
+    el.style.display='inline-block'; el.style.minWidth=el.getBoundingClientRect().width+'px';
+    return {el,pre:m[1],suf:m[3],val,fmt,final:txt};
+  }).filter(Boolean);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const D=2000, ease=t=>1-Math.pow(1-t,4);
+  items.forEach(it=>{it.el.textContent=it.pre+it.fmt.format(0)+it.suf;it.el.classList.add('counting');});
+  const run=it=>{
+    const t0=performance.now();
+    const tick=now=>{
+      const t=Math.min(1,(now-t0)/D), v=it.val*ease(t);
+      it.el.textContent=it.pre+it.fmt.format(v)+it.suf;
+      if(t<1) requestAnimationFrame(tick); else {it.el.textContent=it.final;it.el.classList.remove('counting');it.el.classList.add('counted');}
+    };
+    requestAnimationFrame(tick);
+  };
+  const band=document.querySelector('.stats');
+  const start=()=>items.forEach((it,i)=>setTimeout(()=>run(it),i*90));
+  if('IntersectionObserver' in window){
+    const o=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){o.disconnect();start();}},{threshold:.25});
+    o.observe(band);
+  } else start();
+})();
 // active section in nav
 const navLinks=[...document.querySelectorAll('.links a')];
 if('IntersectionObserver' in window){
