@@ -351,7 +351,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .copy{font:600 .8rem var(--f-body);padding:7px 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--band-muted) 45%,transparent);background:transparent;color:var(--band-ink);cursor:pointer}
 .copy:hover{background:color-mix(in srgb,var(--band-ink) 10%,transparent)}
 .cline a{color:var(--band-ink);font-weight:600}
-footer{background:var(--band);color:var(--band-muted);font-size:.82rem;padding-block:22px 28px;border-top:1px solid color-mix(in srgb,var(--band-muted) 20%,transparent)}
+footer{background:var(--band);color:var(--band-muted);font-size:.82rem;padding-block:22px 92px;border-top:1px solid color-mix(in srgb,var(--band-muted) 20%,transparent)}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
 /* Display face has a single weight: keep it at 400 everywhere (no faux bold) */
@@ -425,6 +425,25 @@ h1,h2,h3,.mark,.stat b,.yr .y,.card .metric,.sv .r,.pz-nums b,.stage .tag b,.her
   background-size:44px 44px;-webkit-mask:radial-gradient(ellipse 70% 70% at 70% 40%,#000,transparent 75%);mask:radial-gradient(ellipse 70% 70% at 70% 40%,#000,transparent 75%)}
 .hero .wrap{position:relative;z-index:0}
 :focus-visible{outline:2px solid var(--neon2);box-shadow:0 0 0 4px color-mix(in srgb,var(--neon2) 25%,transparent)}
+
+/* WhatsApp + contact links */
+.wa-ic{width:1.15em;height:1.15em;flex:none}
+.cline a.v{font-size:1.1rem;font-weight:600;color:var(--band-ink);text-decoration:none;display:inline-flex;align-items:center;gap:8px;word-break:break-all;transition:color .25s,text-shadow .25s}
+.cline a.v:hover{color:#fff;text-shadow:0 0 14px color-mix(in srgb,var(--glow) 80%,transparent)}
+.cline a.wa-link .wa-ic{color:#25D366}
+.btn.wa-btn{background:linear-gradient(120deg,#1FAF5A,#25D366);color:#fff!important;box-shadow:0 8px 22px -10px #25D366,0 0 0 1px rgba(255,255,255,.18) inset}
+.btn.wa-btn:hover{box-shadow:0 14px 30px -10px #25D366,0 0 24px -4px #25D366}
+.btn.ghost.on-band{color:var(--band-ink);background:transparent;box-shadow:0 0 0 1px color-mix(in srgb,var(--band-muted) 50%,transparent) inset}
+.btn.ghost.on-band:hover{color:#fff}
+.wa-float{position:fixed;z-index:20;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:10px;height:56px;padding:0 18px 0 16px;border-radius:999px;color:#fff;text-decoration:none;font-weight:600;font-size:.92rem;
+  background:linear-gradient(135deg,#1FAF5A,#25D366);box-shadow:0 12px 28px -10px rgba(10,60,30,.6),0 0 0 1px rgba(255,255,255,.2) inset;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.wa-float .wa-ic{width:26px;height:26px}
+.wa-float::before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(37,211,102,.55);animation:waPulse 2.4s infinite;pointer-events:none}
+@keyframes waPulse{70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+.wa-float:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 34px -12px rgba(10,60,30,.7),0 0 26px -4px #25D366}
+@media (max-width:600px){.wa-float{height:54px;width:54px;padding:0;justify-content:center}.wa-float span{display:none}}
 
 /* Motion */
 .rv{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
@@ -615,7 +634,7 @@ body{margin:0}
       <div class="ed"><small>2025</small><h3>IA y Big Data</h3><p>Universidad Nebrija · Femxa</p></div>
       <div class="ed"><small>2025</small><h3>AI Specialist</h3><p>Racks</p></div>
       <div class="ed"><small>2025 – 2026</small><h3>Ciberseguridad</h3><p>UPC y Femxa · 110 h</p></div>
-      <div class="ed"><small>Feb 2025</small><h3>MF0489 Sistemas seguros de acceso y transmisión de datos</h3><p>Acción Laboral · 60 h</p></div>
+      <div class="ed"><small>Feb 2025</small><h3>MF0489 Sistemas seguros de acceso y transmisión de datos</h3></div>
       <div class="ed"><small>2018 – 2019</small><h3>Máster en Investigación en Actividad Física y Ciencias del Deporte</h3><p>Universidad de Almería</p></div>
       <div class="ed"><small>2017 – 2018</small><h3>Máster en Comunicación Social</h3><p>Universidad de Almería</p></div>
       <div class="ed"><small>2013 – 2017</small><h3>Grado en Educación Primaria (Educación Física)</h3><p>Universidad de Almería</p></div>
@@ -629,15 +648,17 @@ body{margin:0}
       <div class="eyebrow" style="color:var(--glow)">Contacto</div>
       <h2 style="margin-top:16px">¿Construimos <em>lo siguiente</em>?</h2>
       <p class="lead" style="margin-top:16px">Disponible para incorporación inmediata como AI Engineer, en remoto o híbrido desde Granada.</p>
+      <div class="cta" style="margin-top:26px"><a class="btn wa-btn" href="https://wa.me/34651580018?text=Hola%20Jes%C3%BAs%2C%20he%20visto%20tu%20portfolio" target="_blank" rel="noopener"><svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2Zm0 18.15h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.17 1.73 2.64 4.2 3.7.59.25 1.05.41 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>Escríbeme por WhatsApp</a><a class="btn ghost on-band" href="mailto:jesuscs025@gmail.com?subject=Contacto%20desde%20tu%20portfolio">Enviar un correo</a></div>
     </div>
     <div>
-      <div class="cline"><div><small>Email</small><span class="v" id="em">jesuscs025@gmail.com</span></div><button class="copy" data-copy="em" type="button">Copiar</button></div>
-      <div class="cline"><div><small>Teléfono</small><span class="v" id="tel">+34 651 580 018</span></div><button class="copy" data-copy="tel" type="button">Copiar</button></div>
+      <div class="cline"><div><small>Email</small><a class="v" id="em" href="mailto:jesuscs025@gmail.com?subject=Contacto%20desde%20tu%20portfolio">jesuscs025@gmail.com</a></div><button class="copy" data-copy="em" type="button">Copiar</button></div>
+      <div class="cline"><div><small>Teléfono · WhatsApp</small><a class="v wa-link" id="tel" href="https://wa.me/34651580018?text=Hola%20Jes%C3%BAs%2C%20he%20visto%20tu%20portfolio" target="_blank" rel="noopener"><svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2Zm0 18.15h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.17 1.73 2.64 4.2 3.7.59.25 1.05.41 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>+34 651 580 018</a></div><button class="copy" data-copy="tel" type="button">Copiar</button></div>
       <div class="cline"><div><small>Ubicación</small><span class="v">Armilla, Granada</span></div></div>
       <div class="cline"><div><small>Agencia</small><a href="https://propulsia.netlify.app" target="_blank" rel="noopener">propulsia.netlify.app <span class="arr">↗</span></a></div></div>
     </div>
   </div>
 </section>
+<a class="wa-float" href="https://wa.me/34651580018?text=Hola%20Jes%C3%BAs%2C%20he%20visto%20tu%20portfolio" target="_blank" rel="noopener" aria-label="Escríbeme por WhatsApp"><svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91A9.85 9.85 0 0 0 12.04 2Zm0 18.15h-.01a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.54.12.17 1.73 2.64 4.2 3.7.59.25 1.05.41 1.4.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.47-.28Z"/></svg><span>¿Hablamos?</span></a>
 <footer><div class="wrap"><span>© 2026 Jesús Canalejo Sánchez</span><span>Diseñado y programado a mano, sin plantillas.</span></div></footer>
 
 <script>
@@ -863,30 +884,43 @@ const gwrap=document.getElementById('groups');
 gwrap.innerHTML=GROUPS.map((g,gi)=>`<div class="grp rv" id="g-${g.id}">
   <div class="grp-head"><div><h3>${g.t}<small>${g.items.length}</small></h3><p>${g.sub}</p></div>
     <div class="grp-nav"><button type="button" class="prev" aria-label="Anterior en ${g.t}">←</button><button type="button" class="next" aria-label="Siguiente en ${g.t}">→</button></div></div>
-  <div class="track" tabindex="0" aria-label="${g.t}"><div class="rail">${g.items.map(p=>card(p,false)).join('')}${g.items.map(p=>card(p,true)).join('')}</div></div>
+  <div class="track" tabindex="0" aria-label="${g.t}"><div class="rail">${g.items.map(p=>card(p,true)).join('')}${g.items.map(p=>card(p,false)).join('')}${g.items.map(p=>card(p,true)).join('')}</div></div>
 </div>`).join('');
 document.querySelectorAll('.grp').forEach((grp,gi)=>{
   const tr=grp.querySelector('.track'), rail=grp.querySelector('.rail');
-  const dir=gi%2?-1:1, speed=0.45; let paused=false, hold=0, acc=0;
-  const half=()=>rail.scrollWidth/2;
-  if(dir<0) requestAnimationFrame(()=>{tr.scrollLeft=half();});
-  const pause=()=>{paused=true}, resume=()=>{paused=false};
-  tr.addEventListener('pointerenter',pause); tr.addEventListener('pointerleave',resume);
-  tr.addEventListener('focusin',pause); tr.addEventListener('focusout',resume);
-  tr.addEventListener('touchstart',()=>{hold=performance.now()+2500},{passive:true});
-  // drag to scroll with mouse
-  let down=false,sx=0,sl=0,moved=false;
-  tr.addEventListener('mousedown',e=>{down=true;moved=false;sx=e.clientX;sl=tr.scrollLeft;tr.classList.add('drag')});
-  addEventListener('mouseup',()=>{down=false;tr.classList.remove('drag')});
-  tr.addEventListener('mousemove',e=>{if(!down)return;const dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;tr.scrollLeft=sl-dx;});
+  const auto=grp.id!=='g-top';               // top projects stay put; the other rows run on their own
+  const dir=gi%2?-1:1, speed=0.95;            // px per frame (~57px/s)
+  let hover=false, down=false, hold=0, acc=0, vel=0, sx=0, sl=0, moved=false, samples=[], last=performance.now(), blend=1;
+  const half=()=>rail.scrollWidth/3;
+  requestAnimationFrame(()=>{tr.scrollLeft=half();});
+  const wrap=()=>{const h=half(); if(h>0){if(tr.scrollLeft>=h*2){tr.scrollLeft-=h;sl-=h;} else if(tr.scrollLeft<h*0.5){tr.scrollLeft+=h;sl+=h;}}};
+  tr.addEventListener('pointerenter',()=>hover=true); tr.addEventListener('pointerleave',()=>hover=false);
+  tr.addEventListener('touchstart',()=>{hold=performance.now()+1600;vel=0},{passive:true});
+  tr.addEventListener('wheel',()=>{hold=performance.now()+1200;vel=0},{passive:true});
+  // roulette-style drag: follow the hand 1:1.6, then glide with natural friction on release
+  tr.addEventListener('mousedown',e=>{down=true;moved=false;vel=0;sx=e.clientX;sl=tr.scrollLeft;samples=[{x:e.clientX,t:performance.now()}];tr.classList.add('drag');e.preventDefault()});
+  addEventListener('mousemove',e=>{if(!down)return;const dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;tr.scrollLeft=sl-dx*1.6;wrap();
+    const now=performance.now();samples.push({x:e.clientX,t:now});while(samples.length>2&&now-samples[0].t>90)samples.shift();});
+  addEventListener('mouseup',()=>{if(!down)return;down=false;tr.classList.remove('drag');
+    const n=samples.length; if(n>1){const a0=samples[0],a1=samples[n-1],dt=Math.max(8,a1.t-a0.t); vel=-(a1.x-a0.x)/dt*1.6;} // px per ms
+    if(performance.now()-(samples[n-1]?.t||0)>60) vel=0;           // held still before releasing → no fling
+    vel=Math.max(-9,Math.min(9,vel)); blend=0; hold=0;});
   tr.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();}},true);
-  const step=d=>{hold=performance.now()+2200;const w=(rail.querySelector('.card')?.offsetWidth||330)+22;tr.scrollBy({left:d*w,behavior:'smooth'})};
-  grp.querySelector('.prev').onclick=()=>step(-1); grp.querySelector('.next').onclick=()=>step(1);
-  if(RM) return;
+  tr.addEventListener('dragstart',e=>e.preventDefault());
+  const stepBy=d=>{hold=performance.now()+1600;vel=0;const w=(rail.querySelector('.card')?.offsetWidth||330)+22;tr.scrollBy({left:d*w,behavior:'smooth'})};
+  grp.querySelector('.prev').onclick=()=>stepBy(-1); grp.querySelector('.next').onclick=()=>stepBy(1);
   function tick(t){
-    const h=half();
-    if(!paused && !down && t>hold && h>0){acc+=speed*dir; const whole=acc|0; if(whole){tr.scrollLeft+=whole; acc-=whole;}}
-    if(tr.scrollLeft>=h) tr.scrollLeft-=h; else if(tr.scrollLeft<=0 && dir<0) tr.scrollLeft+=h;
+    const dt=Math.min(48,t-last); last=t;
+    if(!down){
+      if(Math.abs(vel)>0.02){                       // glide: exponential friction, frame-rate independent
+        tr.scrollLeft+=vel*dt; vel*=Math.pow(0.9978,dt);
+      } else {
+        vel=0;
+        if(auto && !RM && t>hold){ blend=Math.min(1,blend+dt/900);   // ease back into the cruise speed
+          acc+=speed*(dt/16.67)*dir*(hover?0.35:1)*blend; const whole=acc|0; if(whole){tr.scrollLeft+=whole;acc-=whole;} }
+      }
+    }
+    wrap();
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
