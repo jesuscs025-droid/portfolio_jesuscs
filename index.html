@@ -188,6 +188,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .more p{margin:0;flex:1;min-width:min(220px,100%);max-width:64ch;color:var(--ink)}
 .lgp{aspect-ratio:16/10;max-width:100%;display:flex;align-items:center;justify-content:center;padding:9% 15%;border-bottom:1px solid var(--line);overflow:hidden}
 .lgp img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;margin:auto;object-fit:contain;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.lgp.nologo::after{content:attr(data-name);font-family:var(--f-display);font-size:1.6rem;color:#12254A;text-align:center;line-height:1.15}
 .lgp.cover{padding:0}.lgp.cover img{width:100%;height:100%;object-fit:cover}
 .card:hover .lgp img{transform:scale(1.05)}
 .art{aspect-ratio:16/10;max-width:100%;border-bottom:1px solid var(--line);overflow:hidden;display:flex}
@@ -197,13 +198,17 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .clients-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-bottom:18px}
 .clients-head h3{font-size:1.45rem}
 .clients-head p{margin:0;color:var(--muted);font-size:.9rem;max-width:52ch}
-.wall{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;--per:6}
-.wall>a{flex:0 0 calc((100% - (var(--per) - 1) * 14px) / var(--per))}
+.wall{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;--per:7}
+.wall>a,.wall>.tile{flex:0 0 calc((100% - (var(--per) - 1) * 14px) / var(--per))}
 @media (max-width:1100px){.wall{--per:3}}
-@media (max-width:760px){.wall{--per:3;gap:10px}.wall>a{flex-basis:calc((100% - 20px) / 3)}}
-@media (max-width:480px){.wall{--per:2}.wall>a{flex-basis:calc((100% - 10px) / 2)}}
+@media (max-width:760px){.wall{--per:3;gap:10px}.wall>a,.wall>.tile{flex-basis:calc((100% - 20px) / 3)}}
+@media (max-width:480px){.wall{--per:2}.wall>a,.wall>.tile{flex-basis:calc((100% - 10px) / 2)}}
 .wall>a{position:relative;aspect-ratio:3/2;border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);overflow:hidden;isolation:isolate;
   text-decoration:none;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,border-color .45s}
+.wall>.tile{position:relative;aspect-ratio:3/2;border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);overflow:hidden}
+.wall>.tile .lw{width:70%;height:52%;display:flex;align-items:center;justify-content:center}
+.wall>.tile img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+.wall>.nologo::after{content:attr(data-name);font-family:var(--f-display);font-size:1rem;color:#12254A;text-align:center;padding:0 10px}
 .wall>a .lw{width:70%;height:52%;display:flex;align-items:center;justify-content:center}
 .wall>a img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s}
 .wall>a.cover .lw{width:100%;height:100%}.wall>a.cover img{width:100%;height:100%;object-fit:cover}
@@ -338,7 +343,24 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .edu{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media (max-width:900px){.edu{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.edu{grid-template-columns:1fr}}
-.ed{padding:18px 20px;border-left:2px solid var(--line)}
+.ed{position:relative;padding:18px 20px;border-left:2px solid var(--line);border-radius:0 14px 14px 0;overflow:hidden;isolation:isolate;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),background .4s,box-shadow .4s,border-color .4s}
+.ed::before{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;z-index:1;
+  background:linear-gradient(180deg,transparent,var(--neon2),#fff,var(--neon),transparent);background-size:100% 220%;background-position:0 120%;opacity:0;transition:opacity .3s}
+.ed::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(260px circle at var(--mx,0%) var(--my,50%),color-mix(in srgb,var(--neon2) 16%,transparent),transparent 70%),
+             linear-gradient(110deg,transparent 35%,color-mix(in srgb,#fff 35%,transparent) 50%,transparent 65%);
+  background-size:100% 100%,250% 100%;background-position:0 0,130% 0}
+.ed h3,.ed small{transition:color .3s,text-shadow .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
+.ed h3{display:block}
+.ed:hover{transform:translateX(6px);background:color-mix(in srgb,var(--surface) 92%,var(--accent));border-left-color:transparent;
+  box-shadow:0 14px 34px -22px rgba(10,20,50,.55),0 0 24px -10px color-mix(in srgb,var(--neon) 70%,transparent)}
+.ed:hover::before{opacity:1;animation:edscan 1.6s linear infinite}
+.ed:hover::after{opacity:1;animation:edsheen 1s ease-out forwards}
+.ed:hover h3{color:var(--accent);transform:translateX(2px)}
+.ed:hover small{text-shadow:0 0 10px color-mix(in srgb,var(--neon2) 70%,transparent)}
+@keyframes edscan{from{background-position:0 120%}to{background-position:0 -120%}}
+@keyframes edsheen{from{background-position:0 0,130% 0}to{background-position:0 0,-40% 0}}
 .ed.top{border-left-color:var(--accent)}
 .ed small{font-family:var(--f-mono);font-size:.72rem;color:var(--accent)}
 .ed h3{font-size:1.05rem;margin:4px 0}
@@ -630,7 +652,7 @@ body{margin:0}
   <div class="wrap">
     <div class="sec-head rv">
       <div class="eyebrow">Formación</div>
-      <h2>Formación <em>oficial y complementaria</em></h2>
+      <h2>Formación <em>oficial</em></h2>
     </div>
     <div class="edu rv">
       <div class="ed top"><small>Jul 2026</small><h3>Máster en Inteligencia Artificial</h3><p>UTAMED · Mejor expediente de la edición. TFM: arquitectura agéntica de voz e IPA para gestionar las citas de una clínica de fisioterapia con Vapi.ai, Gemini 2.5 Flash y n8n · Nota 9 · Mejor TFM de la edición</p></div>
@@ -697,11 +719,11 @@ const P = [
  {n:'Diana Daureo',logo:'dianadaureo.webp',lb:'#FFFFFF',fit:'contain',cat:'web',l:'cards',c:W('#FBF1F4','#C2457A','#2E0F1D'),u:'dianadaureo.com',url:'https://dianadaureo.com/',m:'Citas, servicios y tienda',d:'Web con reserva de citas, catálogo de servicios y tienda online.',t:['Web','E-commerce']},
  {n:'Teresa Aparicio',logo:'teresaaparicio.webp',lb:'#FFFFFF',fit:'contain',cat:'web',l:'center',c:W('#F5F8EE','#6E9A2C','#1C260C'),u:'teresaaparicio.com',url:'https://teresaaparicio.com/dietista-nutricionista-madrid/',m:'Dietista-nutricionista · Madrid',d:'Web profesional con servicios y captación de consultas.',t:['Web','Salud']},
  {n:'Yolanda Nutricionista',logo:'yolanda.webp',lb:'#FDFDF5',fit:'contain',cat:'web',l:'cards',c:W('#FFF6EE','#E0812F','#2D190A'),u:'yolandanutricionista.com',url:'https://yolandanutricionista.com/',m:'Servicios, blog y consultas',d:'Web con servicios, blog y captación de consultas.',t:['Web','Blog']},
- {n:'Murcia Terapia',cat:'web',l:'split',c:W('#F3F1FA','#6C58B8','#1B1533'),u:'murciaterapia.es',url:'https://murciaterapia.es/',m:'Psicología y terapia',d:'Web de psicología y terapia con servicios, equipo y formulario de contacto.',t:['Web','Psicología']},
- {n:'Clínica Asubio · Logopedia',cat:'web',l:'center',c:W('#EEF7FB','#2C8DB8','#0B2330'),u:'clinicaasubio.com',url:'https://clinicaasubio.com/servicios-sanitarios/logopedia/',m:'Clínica multidisciplinar',d:'Sección de logopedia para una clínica multidisciplinar.',t:['Web','Salud']},
+ {n:'Murcia Terapia',logo:'https://murciaterapia.es/wp-content/uploads/2020/12/logogris-1.png',lb:'#FFFFFF',fit:'contain',cat:'web',l:'split',c:W('#F3F1FA','#6C58B8','#1B1533'),u:'murciaterapia.es',url:'https://murciaterapia.es/',m:'Psicología y terapia',d:'Web de psicología y terapia con servicios, equipo y formulario de contacto.',t:['Web','Psicología']},
+ {n:'Clínica Asubio · Logopedia',logo:'https://clinicaasubio.com/images/full/logo.png',lb:'#FFFFFF',fit:'contain',cat:'web',l:'center',c:W('#EEF7FB','#2C8DB8','#0B2330'),u:'clinicaasubio.com',url:'https://clinicaasubio.com/servicios-sanitarios/logopedia/',m:'Clínica multidisciplinar',d:'Sección de logopedia para una clínica multidisciplinar.',t:['Web','Salud']},
  {n:'Barbería Olympus',gmb:'https://www.google.com/maps/search/?api=1&query=Barber%C3%ADa%20Olympus%2C%20Av.%20de%20Puente%202%2C%20Armilla%2C%20Granada&query_place_id=ChIJN5LVRW37cQ0RDxwfAVGTUTg',logo:'olympus.webp',lb:'#010101',fit:'contain',cat:'web',l:'split',c:W('#121212','#C9A24A','#F2EFE7'),u:'barberia-olympus',m:'React / TSX',d:'Web de barbería con servicios, estética premium y reserva.',t:['React','TypeScript']},
  {n:'Mariano y Nieves',gmb:'https://www.google.com/maps/search/?api=1&query=Mariano%20y%20Nieves%2C%20Pl.%20Manuel%20Galera%2010%2C%20Armilla%2C%20Granada&query_place_id=ChIJRUd8p5v7cQ0RvZQPL4-A4nY',logo:'marianonieves.webp',lb:'#FFFFFF',fit:'contain',cat:'web',l:'cards',c:W('#FAF6F1','#B0703C','#2A1B0E'),u:'marianoynieves',m:'Catálogo e inventario',d:'Web de tienda de ropa en Armilla con catálogo, filtros y herramientas de inventario.',t:['E-commerce','Inventario']},
- {n:'Las Finanzas de Jordi',cat:'web',l:'center',c:W('#F0F6F0','#2E8B57','#0D2416'),u:'finanzasdejordi',m:'Newsletter y landings',d:'Newsletter, landing pages y cursos online para un creador de contenido financiero.',t:['Newsletter','Landing']},
+ {n:'Las Finanzas de Jordi',logo:'jordi.webp',lb:'#F4F1E6',fit:'contain',cat:'web',l:'center',c:W('#F0F6F0','#2E8B57','#0D2416'),u:'finanzasdejordi',m:'Newsletter y landings',d:'Newsletter, landing pages y cursos online para un creador de contenido financiero.',t:['Newsletter','Landing']},
  // Clientes Propulsia
 
  {n:'Clínica AVÁN',logo:'avan.webp',lb:'#FFFFFF',fit:'contain',cat:'cli',l:'split',c:W('#F1F7FA','#2A86B0','#0B2430'),u:'clinica-avan',gmb:'https://www.google.com/maps/search/?api=1&query=Cl%C3%ADnica%20AV%C3%81N%20Centro%20de%20Especialidades%20M%C3%A9dicas%2C%20C.%20Acebo%20152%2C%20Almer%C3%ADa&query_place_id=ChIJ4aCXwbqdeg0RvPdwQjnFS0U',m:'Centro de especialidades médicas · C. Acebo, Almería',d:'Cliente de Propulsia: posicionamiento local y optimización del perfil de Google Business del centro.',t:['Google Business','SEO local']},
@@ -828,7 +850,7 @@ ${[[60,18],[96,10],[136,16],[176,8]].map(([x,y])=>`<circle cx="${x}" cy="${y+6}"
 function artPanel(p){const a=ART[p.n];return `<div class="art" style="background:${a.bg}"><svg viewBox="0 0 320 200" role="img" aria-label="Ilustración de ${p.n}">${a.svg}</svg></div>`;}
 
 function logoPanel(p){
-  return `<div class="lgp${p.fit==='cover'?' cover':''}" style="background:${p.lb}"><img src="${p.logo}" alt="Logo de ${p.n}" decoding="async"></div>`;
+  return `<div class="lgp${p.fit==='cover'?' cover':''}" style="background:${p.lb}" data-name="${p.n}"><img src="${p.logo}" onerror="this.parentNode.classList.add('nologo');this.remove()" alt="Logo de ${p.n}" decoding="async"></div>`;
 }
 
 // Hero stage
@@ -853,7 +875,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 }
 
 // Logo wall
-document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>{const href=p.gmb||p.url;const lbl=p.gmb?'Ver en Google':'Ver web';return `<a class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" href="${href}" target="_blank" rel="noopener" aria-label="${p.n}: ${lbl}" title="${p.n}"><span class="lw"><img src="${p.logo}" alt="${p.n}" decoding="async"></span><span class="go">${lbl} <span class="arr">↗</span></span></a>`}).join('');
+document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>{const href=p.gmb||p.url;const lbl=p.gmb?'Ver en Google':'Ver web';const img=`<span class="lw"><img src="${p.logo}" alt="${p.n}" decoding="async" onerror="this.closest('a,div').classList.add('nologo');this.remove()"></span>`;return href?`<a class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" href="${href}" target="_blank" rel="noopener" aria-label="${p.n}: ${lbl}" title="${p.n}" data-name="${p.n}">${img}<span class="go">${lbl} <span class="arr">↗</span></span></a>`:`<div class="tile" style="background:${p.lb}" title="${p.n}" data-name="${p.n}">${img}</div>`}).join('');
 
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Project groups (auto-scrolling rows)
@@ -998,6 +1020,8 @@ if('IntersectionObserver' in window){
   const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));}}),{rootMargin:'-45% 0px -50% 0px'});
   ['recorrido','propulsia','proyectos','metodo','stack','formacion'].forEach(id=>{const el=document.getElementById(id);if(el) so.observe(el);});
 }
+
+document.querySelectorAll('.ed').forEach(el=>el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');}));
 
 // Reveal (resting state visible; only below-the-fold items animate)
 if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
