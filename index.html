@@ -132,6 +132,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 @media (max-width:420px){.stat{padding:22px 16px}}
 
 /* Recorrido */
+#recorrido{overflow-x:clip}
 .tl{position:relative;display:grid;gap:0}
 .tl::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(var(--line),var(--accent),var(--line));transform:translateX(-1px)}
 .tl-head{display:grid;grid-template-columns:1fr 110px 1fr;margin-bottom:18px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
@@ -141,7 +142,32 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .yr .y.now{color:var(--accent)}
 .lane{display:grid;gap:12px;min-width:0}
 .lane.l{justify-items:end}
-.ev{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;max-width:420px;width:100%}
+.ev{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;max-width:420px;width:100%;overflow:hidden;isolation:isolate;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,border-color .45s,opacity .7s,translate .7s cubic-bezier(.2,.8,.2,1)}
+.ev::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:2;opacity:0;transition:opacity .4s;
+  background:conic-gradient(from var(--ang,0deg),transparent 0 65%,var(--neon2) 78%,#fff 84%,var(--neon) 90%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.ev::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--neon2) 18%,transparent),transparent 70%),
+             linear-gradient(110deg,transparent 35%,color-mix(in srgb,#fff 40%,transparent) 50%,transparent 65%);
+  background-size:100% 100%,250% 100%;background-position:0 0,130% 0}
+.ev:hover{transform:translateY(-5px) scale(1.015);border-color:transparent;box-shadow:0 20px 40px -24px rgba(10,20,50,.55),0 0 28px -8px color-mix(in srgb,var(--neon) 70%,transparent)}
+.ev:hover::before{opacity:1;animation:spin 2.4s linear infinite}
+.ev:hover::after{opacity:1;animation:edsheen 1s ease-out forwards}
+.ev h3,.ev small,.ev .chip{transition:color .3s,text-shadow .3s,background .3s,box-shadow .3s}
+.ev:hover h3{color:var(--accent)}
+.ev:hover small{text-shadow:0 0 10px color-mix(in srgb,var(--neon2) 70%,transparent)}
+.ev:hover .chip{background:var(--accent);color:#fff;box-shadow:0 0 14px -2px var(--neon)}
+/* reveal: cards slide in from their own side */
+.js .yr.pre .lane.l .ev{opacity:0;translate:-34px 0}
+.js .yr.pre .lane:not(.l) .ev{opacity:0;translate:34px 0}
+.yr .lane .ev:nth-child(2){transition-delay:0s,0s,0s,.12s,.12s}.yr .lane .ev:nth-child(3){transition-delay:0s,0s,0s,.24s,.24s}
+/* spine that fills with light as you scroll, and years that light up */
+.tl::after{content:"";position:absolute;left:50%;top:0;width:2px;height:var(--prog,0%);transform:translateX(-1px);z-index:0;
+  background:linear-gradient(180deg,var(--neon),var(--neon2));box-shadow:0 0 12px var(--neon2),0 0 2px #fff;transition:height .15s linear}
+.yr .y{transition:color .5s,text-shadow .5s,box-shadow .5s,transform .5s cubic-bezier(.2,.8,.2,1);border-radius:999px}
+.yr .y.lit{color:var(--accent);text-shadow:0 0 16px color-mix(in srgb,var(--neon2) 70%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--neon) 45%,transparent),0 0 22px -4px var(--neon2);transform:scale(1.12)}
+@media (max-width:760px){.tl::after{left:20px}}
 .ev.pro{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
 .ev small{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.04em}
 .ev h3{font-size:1.08rem;margin:4px 0 4px;font-weight:600}
@@ -704,7 +730,7 @@ const P = [
  {n:'Sistema experto con avatares 3D',cat:'plat',l:'phone',c:W('#F1EFFC','#7A5AF0','#1E1543'),u:'activital/asesor',m:'Asesores virtuales integrados',d:'Asesores virtuales con avatares 3D para fomentar la actividad física en jóvenes, adultos y personas mayores dentro de Activital.',t:['IA','3D','Salud']},
  {n:'Activital Ceuta',top:1,logo:'activitalregional.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-ceuta',m:'Versión regional para Ceuta',d:'Adaptación de la plataforma y la app de Activital a Ceuta, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Ceuta']},
  {n:'Activital Melilla',top:1,logo:'activitalregional.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-melilla',app:'https://apps.apple.com/us/app/-/id6748304837',m:'Versión regional para Melilla · App Store',d:'Adaptación de la plataforma y la app de Activital a Melilla, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Melilla']},
- {n:'Red PAPEF',top:1,cat:'plat',l:'cards',c:W('#F1F7EE','#4E9A2B','#15260C'),u:'redpapef.com',url:'https://redpapef.com/',m:'Red de profesionales sanitarios y del deporte',d:'Red para el intercambio de información y la coordinación entre profesionales sanitarios y del deporte dentro del Plan Andaluz de Prescripción de Ejercicio Físico, con mapa de Unidades Activas de Ejercicio Físico.',t:['Junta de Andalucía','UGR','Salud']},
+ {n:'Red PAPEF',top:1,logo:'redpapef.webp',lb:'#55944D',fit:'cover',cat:'plat',l:'cards',c:W('#F1F7EE','#4E9A2B','#15260C'),u:'redpapef.com',url:'https://redpapef.com/',m:'Red de profesionales sanitarios y del deporte',d:'Red para el intercambio de información y la coordinación entre profesionales sanitarios y del deporte dentro del Plan Andaluz de Prescripción de Ejercicio Físico, con mapa de Unidades Activas de Ejercicio Físico.',t:['Junta de Andalucía','UGR','Salud']},
  {n:'MüveOn Academy',top:1,logo:'muveonacademy.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'muveonacademy.es',url:'https://muveonacademy.es/muveonacademy/login/index.php',m:'52 programas formativos',d:'Plataforma educativa con catálogo de másteres: desarrollo, maquetación, edición y gestión, con sprints y checklists antes de cada release.',t:['App','eLearning','QA']},
  {n:'MüveOn',top:1,logo:'muveon.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'play.google.com · MüveOn',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.MuveOn',m:'App en Play Store',d:'Plataforma del ecosistema MüveOn de actividad física y salud desarrollado junto a Human Lab UGR.',t:['Plataforma','Salud']},
  {n:'Activídate',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'Canarias · conectada a DRAGO',d:'App de ejercicio físico y actividad saludable para Canarias, integrada con DRAGO, el sistema de información sanitaria canario. Disponible en Play Store.',t:['App móvil','Salud','Canarias']},
@@ -953,7 +979,7 @@ const TL = [
  ['2017',[['2017 – 2018','Máster en Comunicación Social','Universidad de Almería']],[]],
  ['2018',[['2018 – 2019','Máster en Actividad Física y Ciencias del Deporte','Investigación · Universidad de Almería']],[['2018 – hoy','Primeras webs para negocios','Empieza el ciclo completo de diseño, desarrollo, QA y lanzamiento que hoy suma más de 200 webs.','200+ webs']]],
  ['2020',[['2020 – 2024','Grado en Ingeniería Informática','UTAMED · Becado por mejor expediente']],[]],
- ['2023',[],[['Feb 2023 – Oct 2026','Product Owner y Project Manager · Activital & PAPEF','UGR, iMUDS, EMERGE, Junta de Andalucía y Canarias. Roadmap en React, integración de Activital con DIRAYA (Andalucía) y de Activídate con DRAGO (Canarias), QA y UX.','+2.700 usuarios'],['Mar 2023 – hoy','AI Solutions y desarrollador freelance','Agentes de voz y chat, automatizaciones y SEO local para clientes reales.','18 sistemas activos'],['2023 – 2026','Tutor de contenido digital','Escuela Andaluza de Salud Pública y MuveOn Academy: formación a sanitarios y módulos de IA y tecnología.']]],
+ ['2023',[],[['Feb 2023 – Oct 2026','Product Owner y Project Manager · Activital & PAPEF','UGR, iMUDS, EMERGE, Junta de Andalucía y Canarias. Roadmap en React, integración de Activital con DIRAYA (Andalucía) y de Activídate con DRAGO (Canarias), QA y UX.','+2.700 usuarios'],['Mar 2023 – hoy','AI Solutions y desarrollador freelance','Agentes de voz y chat, automatizaciones y SEO local para clientes reales.','18 sistemas activos'],['2023 – 2026','Tutor de contenido digital','Escuela Andaluza de Salud Pública y MüveOn Academy: formación a sanitarios y módulos de IA y tecnología.']]],
  ['2025',[['2025','IA y Big Data · AI Specialist · Ciberseguridad','Nebrija, Racks, UPC y Femxa']],[['2025 – 2026','Reseña Fácil','Plataforma propia de reputación y SEO local para negocios.','65 negocios']]],
  ['2026',[['Jul 2026','Máster en Inteligencia Artificial','UTAMED · Mejor expediente. TFM sobre IA agéntica de voz para automatizar citas (Vapi.ai, Gemini y n8n), nota 9 y mejor TFM de la edición','Mejor TFM']],[['2026','Propulsia','Dirijo Propulsia, mi empresa de servicios de IA para negocios, con Reseña Fácil incluido como uno de los 9 servicios que ofrezco:','9 servicios',['Páginas web','Reseña Fácil','Chatbot de WhatsApp','Recepcionista IA por voz','Avatares IA','Agenda-Llena','Carta Digital','Software a medida','Consultoría con sistema experto']]]],
 ];
@@ -1022,6 +1048,23 @@ if('IntersectionObserver' in window){
 }
 
 document.querySelectorAll('.ed').forEach(el=>el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');}));
+
+// Timeline: spotlight on cards, spine progress and years that light up
+document.querySelectorAll('.ev').forEach(el=>el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');}));
+(function(){
+  const tl=document.getElementById('tl'); if(!tl) return;
+  const years=[...tl.querySelectorAll('.y')];
+  let ticking=false;
+  function upd(){
+    ticking=false;
+    const r=tl.getBoundingClientRect(), mid=innerHeight*0.6;
+    const p=Math.max(0,Math.min(1,(mid-r.top)/r.height));
+    tl.style.setProperty('--prog',(p*100).toFixed(2)+'%');
+    years.forEach(y=>{const yr=y.getBoundingClientRect(); y.classList.toggle('lit', yr.top+yr.height/2 < mid);});
+  }
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(upd);}},{passive:true});
+  addEventListener('resize',upd); upd();
+})();
 
 // Reveal (resting state visible; only below-the-fold items animate)
 if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
