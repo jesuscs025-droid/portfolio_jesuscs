@@ -194,13 +194,33 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .clients-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-bottom:18px}
 .clients-head h3{font-size:1.45rem}
 .clients-head p{margin:0;color:var(--muted);font-size:.9rem;max-width:52ch}
-.wall{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:12px}
-.wall>div{grid-column:span 5}
-.wall>div:nth-child(-n+5){grid-column:span 6}
-@media (max-width:640px){.wall{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wall>div,.wall>div:nth-child(-n+5){grid-column:span 1}.wall>div:last-child:nth-child(odd){grid-column:1/-1;aspect-ratio:auto;height:110px}}
-.wall div{aspect-ratio:3/2;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:14% 12%;border:1px solid var(--line);overflow:hidden}
-.wall div.cover{padding:0}.wall div.cover img{width:100%;height:100%;object-fit:cover}
-.wall img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;margin:auto;object-fit:contain}
+.wall{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.wall>a{grid-column:span 2}
+.wall>a:first-child{grid-column:2 / span 2}
+@media (max-width:640px){.wall{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wall>a,.wall>a:first-child{grid-column:auto}.wall>a:last-child:nth-child(odd){grid-column:1/-1;width:calc(50% - 5px);justify-self:center}}
+.wall>a{position:relative;aspect-ratio:3/2;border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);overflow:hidden;isolation:isolate;
+  text-decoration:none;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,border-color .45s}
+.wall>a .lw{width:70%;height:52%;display:flex;align-items:center;justify-content:center}
+.wall>a img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s}
+.wall>a.cover .lw{width:100%;height:100%}.wall>a.cover img{width:100%;height:100%;object-fit:cover}
+.wall>a::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;padding:1.5px;opacity:0;transition:opacity .4s;
+  background:conic-gradient(from var(--ang,0deg),transparent 0 65%,var(--neon2) 78%,#fff 84%,var(--neon) 90%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.wall>a::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .4s;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 48%,transparent 62%);background-size:250% 100%;background-position:120% 0}
+.wall>a .go{position:absolute;left:8px;right:8px;bottom:8px;z-index:3;display:flex;justify-content:center;align-items:center;gap:6px;
+  font:600 .7rem var(--f-body);letter-spacing:.02em;color:#fff;padding:5px 8px;border-radius:999px;
+  background:color-mix(in srgb,#0B152C 78%,transparent);backdrop-filter:blur(6px);box-shadow:0 0 0 1px color-mix(in srgb,var(--neon2) 50%,transparent) inset;
+  transform:translateY(130%);opacity:0;transition:transform .4s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.wall>a:hover,.wall>a:focus-visible{transform:translateY(-6px) scale(1.03);border-color:transparent;
+  box-shadow:0 18px 40px -18px rgba(10,20,50,.55),0 0 28px -6px color-mix(in srgb,var(--neon) 70%,transparent)}
+.wall>a:hover::before,.wall>a:focus-visible::before{opacity:1;animation:spin 2.4s linear infinite}
+.wall>a:hover::after{opacity:1;animation:sheen 1.1s ease-out}
+@keyframes sheen{from{background-position:120% 0}to{background-position:-30% 0}}
+.wall>a:hover img,.wall>a:focus-visible img{transform:scale(1.08)}
+.wall>a:hover .go,.wall>a:focus-visible .go{transform:none;opacity:1}
+.wall>a:active{transform:translateY(-2px) scale(.99)}
+@media (hover:none){.wall>a .go{transform:none;opacity:.92;font-size:.64rem;padding:4px 6px}}
 
 /* Propulsia */
 .pz{background:var(--surface);border-block:1px solid var(--line)}
@@ -234,26 +254,37 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .pz-foot p{margin:0;color:var(--muted);font-size:.92rem;max-width:60ch}
 
 /* Proceso */
-.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:s;border-top:1px solid var(--line);--cyc:6.6s}
-.step{padding:22px 18px 0 0;position:relative;--i:0;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--neon2) 70%,transparent) 35%,#fff 50%,color-mix(in srgb,var(--neon2) 70%,transparent) 65%,transparent) no-repeat;
-  background-size:55% 3px;background-position:-100% 0;
-  animation:beam var(--cyc) linear infinite;animation-delay:calc(var(--i) * var(--cyc) / 6)}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:s;border-top:1px solid var(--line);position:relative;--cyc:10s;--travel:9.2s}
+/* travelling light: trail + glowing head, slow left→right along the whole line */
+.steps::before,.steps::after{content:"";position:absolute;pointer-events:none;z-index:2;left:0;animation:travel var(--cyc) linear infinite}
+.steps::before{top:-1.5px;height:3px;width:220px;transform:translateX(-100%);border-radius:3px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--neon) 45%,transparent) 45%,color-mix(in srgb,var(--neon2) 90%,transparent) 85%,#fff);
+  filter:drop-shadow(0 0 6px var(--neon2))}
+.steps::after{top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#fff;
+  box-shadow:0 0 10px 3px var(--neon2),0 0 26px 8px color-mix(in srgb,var(--neon2) 55%,transparent)}
+@keyframes travel{0%{left:0;opacity:0}2%{opacity:1}90%{opacity:1}92%{left:100%;opacity:0}100%{left:100%;opacity:0}}
+.step{padding:22px 18px 0 0;position:relative;--i:0;--d:calc(var(--i) * var(--travel) / 6)}
 .step:nth-child(2){--i:1}.step:nth-child(3){--i:2}.step:nth-child(4){--i:3}.step:nth-child(5){--i:4}.step:nth-child(6){--i:5}
-@keyframes beam{0%{background-position:-100% 0}16.66%{background-position:200% 0}100%{background-position:200% 0}}
-.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--f-mono);font-size:.75rem;color:var(--accent);display:inline-block;animation:numglow var(--cyc) ease-out infinite;animation-delay:inherit}
-.step::after{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--accent);
-  box-shadow:0 0 0 0 transparent;animation:node var(--cyc) ease-out infinite;animation-delay:inherit}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--f-mono);font-size:.75rem;color:var(--accent);display:inline-block;animation:numglow var(--cyc) ease-out infinite;animation-delay:var(--d)}
+.step::after{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--accent);z-index:3;
+  animation:node var(--cyc) ease-out infinite;animation-delay:var(--d)}
 @keyframes node{
   0%{transform:scale(1);background:var(--accent);box-shadow:0 0 0 0 transparent}
-  2.5%{transform:scale(2.1);background:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--neon2) 45%,transparent),0 0 22px 8px color-mix(in srgb,var(--neon2) 75%,transparent),0 0 46px 14px color-mix(in srgb,var(--neon) 40%,transparent)}
-  9%{transform:scale(1.35);background:var(--neon2);box-shadow:0 0 0 3px color-mix(in srgb,var(--neon2) 25%,transparent),0 0 14px 4px color-mix(in srgb,var(--neon2) 45%,transparent)}
-  22%,100%{transform:scale(1);background:var(--accent);box-shadow:0 0 6px 0 color-mix(in srgb,var(--accent) 40%,transparent)}}
-@keyframes numglow{0%,22%,100%{color:var(--accent);text-shadow:none}3%{color:var(--neon2);text-shadow:0 0 10px var(--neon2)}}
-.step h3{font-size:1.15rem;margin:8px 0 6px;animation:titleglow var(--cyc) ease-out infinite;animation-delay:inherit}
-@keyframes titleglow{0%,24%,100%{text-shadow:none}4%{text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}}
+  1.5%{transform:scale(2.3);background:#fff;box-shadow:0 0 0 6px color-mix(in srgb,var(--neon2) 45%,transparent),0 0 26px 10px color-mix(in srgb,var(--neon2) 80%,transparent),0 0 56px 18px color-mix(in srgb,var(--neon) 45%,transparent)}
+  8%{transform:scale(1.4);background:var(--neon2);box-shadow:0 0 0 3px color-mix(in srgb,var(--neon2) 25%,transparent),0 0 16px 5px color-mix(in srgb,var(--neon2) 45%,transparent)}
+  20%,100%{transform:scale(1);background:var(--accent);box-shadow:0 0 6px 0 color-mix(in srgb,var(--accent) 40%,transparent)}}
+@keyframes numglow{0%,20%,100%{color:var(--accent);text-shadow:none}2%{color:var(--neon2);text-shadow:0 0 10px var(--neon2)}}
+.step h3{font-size:1.15rem;margin:8px 0 6px;animation:titleglow var(--cyc) ease-out infinite;animation-delay:var(--d)}
+@keyframes titleglow{0%,22%,100%{text-shadow:none}3%{text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}}
 .step p{margin:0;font-size:.88rem;color:var(--muted)}
-@media (max-width:900px){.steps{grid-template-columns:repeat(3,1fr);row-gap:30px;border-top:0}.step{border-top:1px solid var(--line)}}
+/* tablet/phone: rows wrap, so the light runs along each step's own segment, in order */
+@keyframes seg{0%{background-position:-100% 0}16.66%{background-position:200% 0}100%{background-position:200% 0}}
+@media (max-width:900px){
+  .steps{grid-template-columns:repeat(3,1fr);row-gap:30px;border-top:0}
+  .steps::before,.steps::after{display:none}
+  .step{--d:calc(var(--i) * var(--cyc) / 6);border-top:1px solid var(--line);
+    background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--neon2) 80%,transparent) 60%,#fff 92%,transparent) no-repeat;
+    background-size:60% 3px;background-position:-100% 0;animation:seg var(--cyc) linear infinite;animation-delay:var(--d)}}
 @media (max-width:520px){.steps{grid-template-columns:1fr 1fr}}
 
 /* Stack */
@@ -571,7 +602,7 @@ body{margin:0}
     <div>
       <div class="eyebrow" style="color:var(--glow)">Contacto</div>
       <h2 style="margin-top:16px">¿Construimos <em>lo siguiente</em>?</h2>
-      <p class="lead" style="margin-top:16px">Disponible para incorporación inmediata como AI Engineer, en remoto o híbrido desde Granada. Para proyectos de web, apps y automatización, a través de Propulsia.</p>
+      <p class="lead" style="margin-top:16px">Disponible para incorporación inmediata como AI Engineer, en remoto o híbrido desde Granada.</p>
     </div>
     <div>
       <div class="cline"><div><small>Email</small><span class="v" id="em">jesuscs025@gmail.com</span></div><button class="copy" data-copy="em" type="button">Copiar</button></div>
@@ -732,8 +763,8 @@ ${[['Ingresos','12.480 €','#2E9D6A'],['Gastos','4.215 €','#D0573E'],['Margen
 ${['F-0231 · Pagada','F-0232 · Pendiente','F-0233 · Pagada'].map((t,i)=>`<rect x="92" y="${84+i*28}" width="202" height="22" rx="6" fill="#F7F9FC" stroke="#DDE3EE"/><text x="102" y="${98+i*28}" fill="#0F1C2C" font-size="8" font-family="monospace">${t}</text><circle cx="282" cy="${95+i*28}" r="4" fill="${i===1?'#E8A33A':'#2E9D6A'}"/>`).join('')}`},
 'Creador de iconos de escritorio': {bg:'#F6EFE4', svg:`
 <rect x="20" y="16" width="280" height="150" rx="10" fill="#2A1C0E"/>
-<rect x="28" y="24" width="264" height="134" rx="6" fill="url(#wall)"/>
-<defs><linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D07A2C"/><stop offset="1" stop-color="#7A3E16"/></linearGradient></defs>
+<rect x="28" y="24" width="264" height="134" rx="6" fill="url(#wallg)"/>
+<defs><linearGradient id="wallg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D07A2C"/><stop offset="1" stop-color="#7A3E16"/></linearGradient></defs>
 ${[0,1,2,3,4,5,6,7,8,9,10,11].map(i=>{const x=44+(i%6)*42,y=36+Math.floor(i/6)*56,c=['#FFD27A','#7FC8F8','#9BE29B','#F7A6B8','#C9B6FF','#FFB46B'][i%6];return `<path d="M${x} ${y+6} h10 l4 4 h14 v20 h-28z" fill="${c}"/><rect x="${x+2}" y="${y+36}" width="24" height="4" rx="2" fill="#fff" opacity=".7"/>`}).join('')}
 <rect x="120" y="170" width="80" height="18" rx="9" fill="#D07A2C"/><text x="160" y="182" text-anchor="middle" fill="#fff" font-size="8.5" font-family="monospace">Ordenado en 5 min</text>`},
 'Máquina captadora de leads': {bg:'#EEF1FB', svg:`
@@ -755,12 +786,12 @@ function logoPanel(p){
 }
 
 // Hero stage
-const featured = ['Reseña Fácil','Activital','IRH Abogados','Barbería Olympus','Clínica Dental Apolonia','Chatbots y voicebots de agendación'].map(n=>P.find(p=>p.n===n));
+const featured = ['Activital','IRH Abogados','Barbería Olympus','Clínica Dental Apolonia','Chatbots y voicebots de agendación','Diana Daureo'].map(n=>P.find(p=>p.n===n));
 const stage = document.getElementById('stage');
 const frames = featured.slice(0,3).map((p,i)=>{const d=document.createElement('div');d.innerHTML=mock(p);const el=d.firstChild;el.dataset.pos=i;stage.appendChild(el);return el;});
 const tag = document.createElement('div');tag.className='tag';stage.appendChild(tag);
 let fi=0;
-function setTag(){const p=featured[fi%featured.length];tag.innerHTML=`<b>${p.n}</b><span>${p.m}</span>`;}
+function setTag(){tag.innerHTML=`<b>Diseño, desarrollo e IA</b><span>200+ webs · 20+ apps · 18 sistemas de IA activos</span>`;}
 setTag();
 if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
   setInterval(()=>{
@@ -776,7 +807,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 }
 
 // Logo wall
-document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>`<div class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" title="${p.n}"><img src="${p.logo}" alt="${p.n}" decoding="async"></div>`).join('');
+document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>{const href=p.gmb||p.url;const lbl=p.gmb?'Ver en Google':'Ver web';return `<a class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" href="${href}" target="_blank" rel="noopener" aria-label="${p.n}: ${lbl}" title="${p.n}"><span class="lw"><img src="${p.logo}" alt="${p.n}" decoding="async"></span><span class="go">${lbl} <span class="arr">↗</span></span></a>`}).join('');
 
 // Filters + grid
 const fwrap = document.getElementById('filters'), grid = document.getElementById('pgrid');
