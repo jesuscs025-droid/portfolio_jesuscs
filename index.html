@@ -75,16 +75,20 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .dot{width:8px;height:8px;border-radius:50%;background:#2DBE7A;box-shadow:0 0 0 0 #2DBE7A80;animation:pulse 2.2s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 8px #2DBE7A00}100%{box-shadow:0 0 0 0 #2DBE7A00}}
 
-.stage{position:relative;aspect-ratio:1/0.86;max-width:100%}
-.stage .bw{position:absolute;width:78%;transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .9s,filter .9s;box-shadow:0 30px 60px -28px rgba(10,20,50,.45)}
-.stage .bw[data-pos="0"]{transform:translate(22%,26%) rotate(1.5deg);z-index:3}
-.stage .bw[data-pos="1"]{transform:translate(4%,4%) rotate(-3deg);z-index:2;filter:saturate(.8)}
-.stage .bw[data-pos="2"]{transform:translate(30%,-2%) rotate(4deg);z-index:1;filter:saturate(.6);opacity:.85}
-.stage .tag{position:absolute;z-index:4;left:0;bottom:2%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.82rem;box-shadow:0 12px 30px -16px rgba(10,20,50,.4);max-width:62%}
+.stage{position:relative;aspect-ratio:1/0.86;max-width:100%;perspective:1400px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.stage.drag{cursor:grabbing}
+.stage .bw{position:absolute;left:50%;top:40%;width:63%;will-change:transform;transform-origin:50% 50%;
+  box-shadow:0 30px 60px -28px rgba(10,20,50,.5);transition:box-shadow .3s,filter .3s}
+.stage .bw.front{box-shadow:0 36px 70px -26px rgba(10,20,50,.6),0 0 0 1px color-mix(in srgb,var(--neon) 35%,transparent),0 0 34px -10px color-mix(in srgb,var(--neon2) 70%,transparent)}
+.stage .bw:hover{filter:brightness(1.05)}
+.stage .shot{aspect-ratio:16/10;overflow:hidden;background:#0b0b0b}
+.stage .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;pointer-events:none;-webkit-user-drag:none}
+.stage .tag{position:absolute;z-index:60;left:0;bottom:2%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.82rem;box-shadow:0 12px 30px -16px rgba(10,20,50,.4);max-width:62%;pointer-events:none}
 .stage .tag b{display:block;font-family:var(--f-display);font-size:1rem}
 .stage .tag span{color:var(--muted)}
+.stage .hint{position:absolute;z-index:60;right:4%;bottom:3%;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);pointer-events:none;opacity:.8}
 @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.stage{max-width:560px;width:100%;margin-inline:auto}}
-@media (max-width:600px){.stage{aspect-ratio:1/0.92}.stage .bw{width:84%}.stage .bw[data-pos="0"]{transform:translate(16%,30%) rotate(1.5deg)}.stage .bw[data-pos="1"]{transform:translate(0,6%) rotate(-3deg)}.stage .bw[data-pos="2"]{transform:translate(18%,0) rotate(3deg)}.stage .tag{bottom:0;max-width:70%;font-size:.76rem;padding:8px 12px}}
+@media (max-width:600px){.stage{aspect-ratio:1/0.95}.stage .bw{width:68%}.stage .tag{max-width:70%;font-size:.76rem;padding:8px 12px}.stage .hint{display:none}}
 
 /* Browser + mockups */
 .bw{border-radius:12px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
@@ -879,26 +883,63 @@ function logoPanel(p){
   return `<div class="lgp${p.fit==='cover'?' cover':''}" style="background:${p.lb}" data-name="${p.n}"><img src="${p.logo}" onerror="this.parentNode.classList.add('nologo');this.remove()" alt="Logo de ${p.n}" decoding="async"></div>`;
 }
 
-// Hero stage
-const featured = ['Activital','IRH Abogados','Barbería Olympus','Clínica Dental Apolonia','Chatbots y voicebots de agendación','Diana Daureo'].map(n=>P.find(p=>p.n===n));
-const stage = document.getElementById('stage');
-const frames = featured.slice(0,3).map((p,i)=>{const d=document.createElement('div');d.innerHTML=mock(p);const el=d.firstChild;el.dataset.pos=i;stage.appendChild(el);return el;});
-const tag = document.createElement('div');tag.className='tag';stage.appendChild(tag);
-let fi=0;
-function setTag(){tag.innerHTML=`<b>Diseño, desarrollo e IA</b><span>200+ webs · 20+ apps · 18 sistemas de IA activos</span>`;}
-setTag();
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
-  setInterval(()=>{
-    fi++;
-    const front = frames.find(f=>f.dataset.pos==='0');
-    frames.forEach(f=>f.dataset.pos = (+f.dataset.pos+2)%3);
-    // the frame that moved to the back gets the next featured project
-    const back = frames.find(f=>f.dataset.pos==='2');
-    const next = featured[(fi+2)%featured.length];
-    setTimeout(()=>{const d=document.createElement('div');d.innerHTML=mock(next);back.innerHTML=d.firstChild.innerHTML;},500);
-    setTag();
-  },3800);
-}
+// Hero stage: 3D roulette of real projects (auto-spins, drag to spin with inertia, click to bring forward)
+const SHOTS=[
+ {src:'shot-olympus.webp',u:'barberiaolympus',alt:'Web de Barbería Olympus'},
+ {src:'shot-avan.webp',u:'clinicaavan.com',alt:'Web de Clínica AVÁN'},
+ {src:'shot-activital.webp',u:'activital.ugr.es',alt:'Plataforma Activital'},
+];
+const stage=document.getElementById('stage');
+const frames=SHOTS.map(sh=>{const el=document.createElement('div');el.className='bw';
+  el.innerHTML=`<div class="bar"><i></i><i></i><i></i><u>${sh.u}</u></div><div class="shot"><img src="${sh.src}" alt="${sh.alt}" draggable="false" decoding="async"></div>`;
+  stage.appendChild(el);return el;});
+const tag=document.createElement('div');tag.className='tag';
+tag.innerHTML=`<b>Diseño, desarrollo e IA</b><span>200+ webs · 20+ apps · 18 sistemas de IA activos</span>`;stage.appendChild(tag);
+const hint=document.createElement('div');hint.className='hint';hint.textContent='Arrastra para girar';stage.appendChild(hint);
+(function(){
+  const N=frames.length, step=360/N, RMh=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ang=0, vel=0, target=null, down=false, sx=0, sa=0, samples=[], hover=false, hold=0, last=performance.now(), moved=false;
+  const auto=-0.008; // degrees per ms: one slow full turn every ~45 s
+  function layout(){
+    const W=stage.clientWidth, R=W*0.255;
+    frames.forEach((el,i)=>{
+      const a=((ang+i*step)%360+360)%360, rad=a*Math.PI/180;
+      const x=Math.sin(rad)*R, z=Math.cos(rad);            // z: 1 front … -1 back
+      const sc=0.62+0.38*(z+1)/2, y=(1-z)*-14, rot=Math.sin(rad)*-8, ry=Math.sin(rad)*-22;
+      el.style.transform=`translate(-50%,-50%) translate(${x}px,${y}px) rotateY(${ry}deg) rotate(${rot}deg) scale(${sc})`;
+      el.style.zIndex=String(Math.round((z+1)*20));
+      el.style.opacity=String(0.55+0.45*(z+1)/2);
+      el.style.filter=z<0.6?`saturate(${0.65+0.35*(z+1)/2}) brightness(${0.9+0.1*(z+1)/2})`:'';
+      el.classList.toggle('front',z>0.94);
+    });
+  }
+  function frontIndex(){let best=0,bz=-2;frames.forEach((el,i)=>{const a=(ang+i*step)*Math.PI/180,z=Math.cos(a);if(z>bz){bz=z;best=i}});return best;}
+  stage.addEventListener('pointerenter',()=>hover=true);
+  stage.addEventListener('pointerleave',()=>hover=false);
+  stage.addEventListener('pointerdown',e=>{down=true;moved=false;vel=0;target=null;sx=e.clientX;sa=ang;samples=[{x:e.clientX,t:performance.now()}];stage.classList.add('drag');stage.setPointerCapture(e.pointerId);});
+  stage.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;
+    const k=180/Math.max(260,stage.clientWidth*0.6); ang=sa+dx*k;
+    const now=performance.now();samples.push({x:e.clientX,t:now});while(samples.length>2&&now-samples[0].t>90)samples.shift();});
+  const up=e=>{if(!down)return;down=false;stage.classList.remove('drag');
+    const n=samples.length,k=180/Math.max(260,stage.clientWidth*0.6);
+    if(n>1&&performance.now()-samples[n-1].t<60){const a0=samples[0],a1=samples[n-1];vel=(a1.x-a0.x)/Math.max(8,a1.t-a0.t)*k;}
+    vel=Math.max(-2.2,Math.min(2.2,vel)); hold=performance.now()+1200;
+    if(!moved){ // click: bring the clicked card to the front
+      const el=e.target.closest('.bw'); if(el){const i=frames.indexOf(el); let t=-i*step; let d=((t-ang)%360+540)%360-180; target=ang+d; vel=0;}
+    }};
+  stage.addEventListener('pointerup',up); stage.addEventListener('pointercancel',up);
+  function tick(t){
+    const dt=Math.min(48,t-last); last=t;
+    if(!down){
+      if(target!==null){const d=target-ang; ang+=d*Math.min(1,dt/180); if(Math.abs(d)<0.05){ang=target;target=null;hold=t+1600;}}
+      else if(Math.abs(vel)>0.004){ang+=vel*dt; vel*=Math.pow(0.9972,dt);}
+      else if(!RMh && t>hold){ang+=auto*dt*(hover?0.35:1);}
+    }
+    layout(); requestAnimationFrame(tick);
+  }
+  layout(); requestAnimationFrame(tick);
+  addEventListener('resize',layout);
+})();
 
 // Logo wall
 document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>{const href=p.gmb||p.url;const lbl=p.gmb?'Ver en Google':'Ver web';const img=`<span class="lw"><img src="${p.logo}" alt="${p.n}" decoding="async" onerror="this.closest('a,div').classList.add('nologo');this.remove()"></span>`;return href?`<a class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" href="${href}" target="_blank" rel="noopener" aria-label="${p.n}: ${lbl}" title="${p.n}" data-name="${p.n}">${img}<span class="go">${lbl} <span class="arr">↗</span></span></a>`:`<div class="tile" style="background:${p.lb}" title="${p.n}" data-name="${p.n}">${img}</div>`}).join('');
