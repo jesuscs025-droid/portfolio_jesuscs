@@ -194,8 +194,10 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .clients-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px;margin-bottom:18px}
 .clients-head h3{font-size:1.45rem}
 .clients-head p{margin:0;color:var(--muted);font-size:.9rem;max-width:52ch}
-.wall{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
-@media (max-width:640px){.wall{grid-template-columns:repeat(2,1fr)}}
+.wall{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:12px}
+.wall>div{grid-column:span 5}
+.wall>div:nth-child(-n+5){grid-column:span 6}
+@media (max-width:640px){.wall{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wall>div,.wall>div:nth-child(-n+5){grid-column:span 1}.wall>div:last-child:nth-child(odd){grid-column:1/-1;aspect-ratio:auto;height:110px}}
 .wall div{aspect-ratio:3/2;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:14% 12%;border:1px solid var(--line);overflow:hidden}
 .wall div.cover{padding:0}.wall div.cover img{width:100%;height:100%;object-fit:cover}
 .wall img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;margin:auto;object-fit:contain}
@@ -232,13 +234,26 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .pz-foot p{margin:0;color:var(--muted);font-size:.92rem;max-width:60ch}
 
 /* Proceso */
-.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:s;border-top:1px solid var(--line)}
-.step{padding:22px 18px 0 0;position:relative}
-.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--f-mono);font-size:.75rem;color:var(--accent)}
-.step::after{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--accent)}
-.step h3{font-size:1.15rem;margin:8px 0 6px}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:s;border-top:1px solid var(--line);--cyc:6.6s}
+.step{padding:22px 18px 0 0;position:relative;--i:0;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--neon2) 70%,transparent) 35%,#fff 50%,color-mix(in srgb,var(--neon2) 70%,transparent) 65%,transparent) no-repeat;
+  background-size:55% 3px;background-position:-100% 0;
+  animation:beam var(--cyc) linear infinite;animation-delay:calc(var(--i) * var(--cyc) / 6)}
+.step:nth-child(2){--i:1}.step:nth-child(3){--i:2}.step:nth-child(4){--i:3}.step:nth-child(5){--i:4}.step:nth-child(6){--i:5}
+@keyframes beam{0%{background-position:-100% 0}16.66%{background-position:200% 0}100%{background-position:200% 0}}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--f-mono);font-size:.75rem;color:var(--accent);display:inline-block;animation:numglow var(--cyc) ease-out infinite;animation-delay:inherit}
+.step::after{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 0 transparent;animation:node var(--cyc) ease-out infinite;animation-delay:inherit}
+@keyframes node{
+  0%{transform:scale(1);background:var(--accent);box-shadow:0 0 0 0 transparent}
+  2.5%{transform:scale(2.1);background:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--neon2) 45%,transparent),0 0 22px 8px color-mix(in srgb,var(--neon2) 75%,transparent),0 0 46px 14px color-mix(in srgb,var(--neon) 40%,transparent)}
+  9%{transform:scale(1.35);background:var(--neon2);box-shadow:0 0 0 3px color-mix(in srgb,var(--neon2) 25%,transparent),0 0 14px 4px color-mix(in srgb,var(--neon2) 45%,transparent)}
+  22%,100%{transform:scale(1);background:var(--accent);box-shadow:0 0 6px 0 color-mix(in srgb,var(--accent) 40%,transparent)}}
+@keyframes numglow{0%,22%,100%{color:var(--accent);text-shadow:none}3%{color:var(--neon2);text-shadow:0 0 10px var(--neon2)}}
+.step h3{font-size:1.15rem;margin:8px 0 6px;animation:titleglow var(--cyc) ease-out infinite;animation-delay:inherit}
+@keyframes titleglow{0%,24%,100%{text-shadow:none}4%{text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}}
 .step p{margin:0;font-size:.88rem;color:var(--muted)}
-@media (max-width:900px){.steps{grid-template-columns:repeat(3,1fr);row-gap:30px}}
+@media (max-width:900px){.steps{grid-template-columns:repeat(3,1fr);row-gap:30px;border-top:0}.step{border-top:1px solid var(--line)}}
 @media (max-width:520px){.steps{grid-template-columns:1fr 1fr}}
 
 /* Stack */
@@ -461,7 +476,7 @@ body{margin:0}
     </div>
     <div class="clients rv">
       <div class="clients-head">
-        <h3>Clientes satisfechos que avalan mi trabajo</h3>
+        <h3>Algunos clientes satisfechos que avalan mi trabajo</h3>
       </div>
       <div class="wall" id="wall"></div>
     </div>
@@ -573,7 +588,7 @@ document.documentElement.classList.add('js');
 const W = (b,a,k='#14213D') => ({b,a,k});
 const P = [
  // IA y automatización
- {n:'Reseña Fácil',cat:'ia',l:'split',c:W('#FFF7EC','#F2A516','#2A1E0A'),u:'resenafacil',m:'65 negocios · +879% reseñas · +23% nota media',d:'Hoy es uno de los servicios de Propulsia. Plataforma propia de SEO local: gestión de Google Business, filtrado inteligente de valoraciones según la puntuación, generador de QR/póster con NFC, sorteos por reseña y landing page.',t:['n8n','Apps Script','HTML/CSS','SEO local']},
+ {n:'Reseña Fácil',logo:'resenafacil.webp',lb:'#EAF2FC',fit:'contain',cat:'ia',l:'split',c:W('#FFF7EC','#F2A516','#2A1E0A'),u:'resenafacil',m:'65 negocios · +879% reseñas · +23% nota media',d:'Hoy es uno de los servicios de Propulsia. Plataforma propia de SEO local: gestión de Google Business, filtrado inteligente de valoraciones según la puntuación, generador de QR/póster con NFC, sorteos por reseña y landing page.',t:['n8n','Apps Script','HTML/CSS','SEO local']},
  {n:'Chatbots y voicebots de agendación',cat:'ia',l:'chat',c:W('#EEF7F3','#16A36B','#0E2A20'),u:'whatsapp-agenda',m:'6 chatbots + 4 voicebots · 77% resuelto',d:'Asistentes por WhatsApp y recepcionistas de voz 24/7 que reservan citas y atienden a clientes en clínicas y negocios locales.',t:['Claude API','Vapi.ai','Twilio','n8n']},
  {n:'Captación de leads',cat:'ia',l:'dash',c:W('#F4F2FB','#5B47D6','#1A1440'),u:'leads-abogados',m:'+119% de facturación',d:'Cuatro flujos a medida con anuncios, audiencias de contactos previos, formulario breve y agenda automática con Cal.com.',t:['Make','n8n','Meta Ads','Cal.com']},
  {n:'Flujo multiagente con LangGraph',cat:'ia',l:'flow',c:W('#0F1B33','#7FA0FF','#DCE5FF'),u:'langgraph-crm',m:'Cualifica, decide y registra',d:'Un agente cualifica el lead, otro decide si agendar, derivar o descartar y otro lo registra en el CRM, con estado persistente.',t:['LangGraph','Python','n8n','CRM']},
@@ -581,14 +596,14 @@ const P = [
  {n:'Menús digitales QR',cat:'ia',l:'menu',c:W('#FBF3EA','#C2502E','#2E140B'),u:'carta-digital',m:'7 locales · +25% de productos pedidos',d:'Cartas inteligentes con pedidos y pago integrado para bares, restaurantes y cafeterías, con alérgenos y calorías.',t:['QR','Stripe','HTML/JS']},
  {n:'Recuperación de suscriptores',cat:'ia',l:'dash',c:W('#F1F7FC','#1F86C8','#0B2233'),u:'comunidad',m:'67% de suscriptores recuperados',d:'Comunidad de pago propia (sin Patreon) con automatización de win-back por email y panel de métricas.',t:['n8n','Email','Dashboard']},
  // Plataformas y apps
- {n:'Activital',top:1,url:'https://activital.ugr.es/auth-sign-in',app:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.ActiVital',logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'dash',c:W('#ECF7F6','#0F9A8C','#0C2A27'),u:'activital.ugr.es',url:'https://activital.ugr.es/',m:'+2.700 usuarios · DIRAYA y DRAGO',d:'Plataforma y app de ejercicio físico y salud de referencia en Andalucía, única conectada por completo con los sistemas sanitarios de Andalucía y Canarias. Product Owner del módulo de prescripción.',t:['React','Product Owner','Salesforce','UX']},
+ {n:'Activital',top:1,url:'https://activital.ugr.es/auth-sign-in',app:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.ActiVital',logo:'actividate.webp',lb:'#F1F7EE',fit:'contain',cat:'plat',l:'dash',c:W('#ECF7F6','#0F9A8C','#0C2A27'),u:'activital.ugr.es',url:'https://activital.ugr.es/',m:'+2.700 usuarios · DIRAYA y DRAGO',d:'Plataforma y app de ejercicio físico y salud de referencia en Andalucía, única conectada por completo con los sistemas sanitarios de Andalucía y Canarias. Product Owner del módulo de prescripción.',t:['React','Product Owner','Salesforce','UX']},
  {n:'Sistema experto con avatares 3D',cat:'plat',l:'phone',c:W('#F1EFFC','#7A5AF0','#1E1543'),u:'activital/asesor',m:'Asesores virtuales integrados',d:'Asesores virtuales con avatares 3D para fomentar la actividad física en jóvenes, adultos y personas mayores dentro de Activital.',t:['IA','3D','Salud']},
- {n:'Activital Ceuta',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-ceuta',m:'Versión regional para Ceuta',d:'Adaptación de la plataforma y la app de Activital a Ceuta, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Ceuta']},
- {n:'Activital Melilla',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-melilla',app:'https://apps.apple.com/us/app/-/id6748304837',m:'Versión regional para Melilla · App Store',d:'Adaptación de la plataforma y la app de Activital a Melilla, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Melilla']},
+ {n:'Activital Ceuta',top:1,cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-ceuta',m:'Versión regional para Ceuta',d:'Adaptación de la plataforma y la app de Activital a Ceuta, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Ceuta']},
+ {n:'Activital Melilla',top:1,cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-melilla',app:'https://apps.apple.com/us/app/-/id6748304837',m:'Versión regional para Melilla · App Store',d:'Adaptación de la plataforma y la app de Activital a Melilla, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Melilla']},
  {n:'Red PAPEF',top:1,cat:'plat',l:'cards',c:W('#F1F7EE','#4E9A2B','#15260C'),u:'redpapef.com',url:'https://redpapef.com/',m:'Red de profesionales sanitarios y del deporte',d:'Red para el intercambio de información y la coordinación entre profesionales sanitarios y del deporte dentro del Plan Andaluz de Prescripción de Ejercicio Físico, con mapa de Unidades Activas de Ejercicio Físico.',t:['Junta de Andalucía','UGR','Salud']},
- {n:'MüveOn Academy',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'play.google.com · MuveOn',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.MuveOn',m:'52 programas formativos · Play Store',d:'Plataforma educativa con catálogo de másteres: desarrollo, maquetación, edición y gestión, con sprints y checklists antes de cada release.',t:['App','eLearning','QA']},
- {n:'MüveOn',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'muveon',m:'Ecosistema MüveOn',d:'Plataforma del ecosistema MüveOn de actividad física y salud desarrollado junto a Human Lab UGR.',t:['Plataforma','Salud']},
- {n:'Activídate',top:1,logo:'actividate.webp',lb:'#F1F7EE',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'App en Play Store',d:'App de ejercicio físico y actividad saludable para el día a día.',t:['App móvil','Salud']},
+ {n:'MüveOn Academy',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'muveonacademy.es',url:'https://muveonacademy.es/muveonacademy/login/index.php',m:'52 programas formativos',d:'Plataforma educativa con catálogo de másteres: desarrollo, maquetación, edición y gestión, con sprints y checklists antes de cada release.',t:['App','eLearning','QA']},
+ {n:'MüveOn',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'play.google.com · MüveOn',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.MuveOn',m:'App en Play Store',d:'Plataforma del ecosistema MüveOn de actividad física y salud desarrollado junto a Human Lab UGR.',t:['Plataforma','Salud']},
+ {n:'Activídate',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'App en Play Store',d:'App de ejercicio físico y actividad saludable para el día a día.',t:['App móvil','Salud']},
  {n:'BioDM2',top:1,logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'split',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'biodm2.es',url:'https://biodm2.es/',m:'I+D+i UGR · Vithas',d:'Web y app de ejercicio terapéutico para personas con diabetes tipo II, en consorcio público-privado UGR-Vithas.',t:['Web','App','Investigación']},
  {n:'App de BioDM2',logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'phone',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'play.google.com · BioDM2',url:'https://play.google.com/store/apps/details?id=com-HumanLabUGR.BioDM2',m:'App en Play Store',d:'App móvil del proyecto BioDM2 para acompañar el ejercicio terapéutico de personas con diabetes tipo II.',t:['App móvil','Salud','I+D+i']},
  {n:'Propulsia',cat:'plat',l:'center',c:W('#0D1630','#6E8BFF','#E6ECFF'),u:'propulsia.netlify.app',url:'https://propulsia.netlify.app',m:'Mi empresa de servicios de IA',d:'Diseño y desarrollo de la web de mi empresa: siete servicios con precios cerrados, sectores, método de trabajo y formulario de contacto.',t:['HTML/CSS','Netlify','Branding']},
@@ -761,7 +776,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 }
 
 // Logo wall
-document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&p.cat!=='plat'&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>`<div class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" title="${p.n}"><img src="${p.logo}" alt="${p.n}" decoding="async"></div>`).join('');
+document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>`<div class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" title="${p.n}"><img src="${p.logo}" alt="${p.n}" decoding="async"></div>`).join('');
 
 // Filters + grid
 const fwrap = document.getElementById('filters'), grid = document.getElementById('pgrid');
