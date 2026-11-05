@@ -505,7 +505,7 @@ h1,h2,h3,.mark,.stat b,.yr .y,.card .metric,.sv .r,.pz-nums b,.stage .tag b,.her
 /* Motion */
 .rv{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
 .js .rv.pre{opacity:.001;transform:translateY(18px)}
-@media (prefers-reduced-motion: reduce){.rp{display:none}*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js .rv.pre{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.rp{display:none}html{scroll-behavior:auto}}
 
 img{max-width:100%}[hidden]{display:none!important}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -897,7 +897,7 @@ const tag=document.createElement('div');tag.className='tag';
 tag.innerHTML=`<b>Diseño, desarrollo e IA</b><span>200+ webs · 20+ apps · 18 sistemas de IA activos</span>`;stage.appendChild(tag);
 const hint=document.createElement('div');hint.className='hint';hint.textContent='Arrastra para girar';stage.appendChild(hint);
 (function(){
-  const N=frames.length, step=360/N, RMh=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=frames.length, step=360/N, RMh=false;
   let ang=0, vel=0, target=null, down=false, sx=0, sa=0, samples=[], hover=false, hold=0, last=performance.now(), moved=false;
   const auto=-0.008; // degrees per ms: one slow full turn every ~45 s
   function layout(){
@@ -933,7 +933,7 @@ const hint=document.createElement('div');hint.className='hint';hint.textContent=
     if(!down){
       if(target!==null){const d=target-ang; ang+=d*Math.min(1,dt/180); if(Math.abs(d)<0.05){ang=target;target=null;hold=t+1600;}}
       else if(Math.abs(vel)>0.004){ang+=vel*dt; vel*=Math.pow(0.9972,dt);}
-      else if(!RMh && t>hold){ang+=auto*dt*(hover?0.35:1);}
+      else if(!RMh && t>hold){ang+=auto*dt*(hover?0.6:1);}
     }
     layout(); requestAnimationFrame(tick);
   }
@@ -944,7 +944,7 @@ const hint=document.createElement('div');hint.className='hint';hint.textContent=
 // Logo wall
 document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&(p.cat==='cli'||p.cat==='web')&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>{const href=p.gmb||p.url;const lbl=p.gmb?'Ver en Google':'Ver web';const img=`<span class="lw"><img src="${p.logo}" alt="${p.n}" decoding="async" onerror="this.closest('a,div').classList.add('nologo');this.remove()"></span>`;return href?`<a class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" href="${href}" target="_blank" rel="noopener" aria-label="${p.n}: ${lbl}" title="${p.n}" data-name="${p.n}">${img}<span class="go">${lbl} <span class="arr">↗</span></span></a>`:`<div class="tile" style="background:${p.lb}" title="${p.n}" data-name="${p.n}">${img}</div>`}).join('');
 
-const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const RM = false;
 // Project groups (auto-scrolling rows)
 const byName=n=>P.find(p=>p.n===n);
 const TOPN=['BioDM2','Activital','Activital Melilla','Activital Ceuta','MüveOn','MüveOn Academy','App de BioDM2','Activídate','Red PAPEF','Sistema experto con avatares 3D'];
@@ -1049,7 +1049,6 @@ function sel(el){const r=document.createRange();r.selectNodeContents(el);const s
   });
   const fmt=(p,v)=>{let n=p.dec?v.toFixed(p.dec).replace('.',','):String(Math.round(v));
     if(p.thou&&!p.dec) n=n.replace(/\B(?=(\d{3})+(?!\d))/g,'.'); return p.pre+n+p.suf;};
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   parsed.forEach(p=>{ if(p){ p.el.style.minWidth=p.el.offsetWidth+'px'; p.el.textContent=fmt(p,0);} });
   const D=3000, ease=t=>1-Math.pow(1-t,4);
   let t0=null;
@@ -1063,7 +1062,7 @@ function sel(el){const r=document.createRange();r.selectNodeContents(el);const s
   // start the 3-second count the moment the figures come into view (right away if already visible)
   const band=document.querySelector('.stats');
   if(band && 'IntersectionObserver' in window){
-    const io=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ io.disconnect(); start(); } },{threshold:.35});
+    const io=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ io.disconnect(); start(); } },{threshold:.15});
     io.observe(band);
   } else start();
 })();
@@ -1108,7 +1107,7 @@ document.querySelectorAll('.ev').forEach(el=>el.addEventListener('pointermove',e
 })();
 
 // Reveal (resting state visible; only below-the-fold items animate)
-if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+if('IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}}),{rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.rv').forEach(el=>{const r=el.getBoundingClientRect();if(r.top>innerHeight){el.classList.add('pre');io.observe(el);}});
 }
