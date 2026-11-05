@@ -170,6 +170,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .card .mk{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
 .card:hover .mk{transform:scale(1.04)}
 .card .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.topb{font-weight:500;color:var(--accent);margin-right:4px}
 .card .cat{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .card h3{font-size:1.28rem}
 .card p{margin:0;font-size:.92rem;color:var(--muted)}
@@ -227,7 +228,7 @@ nav.top .wrap{display:flex;align-items:center;justify-content:space-between;heig
 .funnel div b{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
 .sectors{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
 .sectors span{font-size:.82rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
-.pz-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:36px}
+.pz-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:flex-end;margin-top:36px}
 .pz-foot p{margin:0;color:var(--muted);font-size:.92rem;max-width:60ch}
 
 /* Proceso */
@@ -460,13 +461,11 @@ body{margin:0}
     </div>
     <div class="clients rv">
       <div class="clients-head">
-        <h3>Negocios que confían en mi trabajo</h3>
-        <p>Una muestra de la cartera actual. Cada cliente combina los servicios que necesita, de la web a la reputación en Google o la atención con IA.</p>
+        <h3>Clientes satisfechos que avalan mi trabajo</h3>
       </div>
       <div class="wall" id="wall"></div>
     </div>
     <div class="pz-foot rv">
-      <p>Un solo interlocutor de 9:00 a 21:00 y dudas resueltas en una hora de media. Del diseño de la web a la IA que atiende a los clientes, con resultados medibles en reseñas, contactos, citas y horas recuperadas.</p>
       <a class="btn" href="https://propulsia.netlify.app/" target="_blank" rel="noopener">Visitar Propulsia <span class="arr">↗</span></a>
     </div>
   </div>
@@ -476,7 +475,7 @@ body{margin:0}
   <div class="wrap">
     <div class="sec-head rv">
       <div class="eyebrow">Proyectos</div>
-      <h2>Todo lo que he <em>diseñado y construido</em></h2>
+      <h2>Una selección de mis <em>desarrollos</em>: apps, plataformas, agentes y automatizaciones</h2>
       <p class="lead">Una selección de proyectos representativos. Cada imagen muestra la marca del cliente o una maqueta dibujada a partir de la estructura real del proyecto. Filtra por tipo para ver agentes de IA, plataformas institucionales, webs de cliente, clientes de Propulsia o las herramientas propias que he creado en 2026.</p>
     </div>
     <div class="filters" id="filters" role="group" aria-label="Filtrar proyectos"></div>
@@ -539,7 +538,7 @@ body{margin:0}
       <h2>Formación <em>oficial y complementaria</em></h2>
     </div>
     <div class="edu rv">
-      <div class="ed top"><small>Jul 2026</small><h3>Máster en Inteligencia Artificial</h3><p>UTAMED · Mejor expediente de la edición · TFM sobre arquitectura agéntica de voz e IPA, nota 9, mejor TFM</p></div>
+      <div class="ed top"><small>Jul 2026</small><h3>Máster en Inteligencia Artificial</h3><p>UTAMED · Mejor expediente de la edición. TFM: arquitectura agéntica de voz e IPA para gestionar las citas de una clínica de fisioterapia con Vapi.ai, Gemini 2.5 Flash y n8n · Nota 9 · Mejor TFM de la edición</p></div>
       <div class="ed top"><small>2020 – 2024</small><h3>Grado en Ingeniería Informática</h3><p>UTAMED · Becado por mejor expediente</p></div>
       <div class="ed"><small>2025</small><h3>IA y Big Data</h3><p>Universidad Nebrija · Femxa</p></div>
       <div class="ed"><small>2025</small><h3>AI Specialist</h3><p>Racks</p></div>
@@ -576,20 +575,21 @@ const P = [
  // IA y automatización
  {n:'Reseña Fácil',cat:'ia',l:'split',c:W('#FFF7EC','#F2A516','#2A1E0A'),u:'resenafacil',m:'65 negocios · +879% reseñas · +23% nota media',d:'Hoy es uno de los servicios de Propulsia. Plataforma propia de SEO local: gestión de Google Business, filtrado inteligente de valoraciones según la puntuación, generador de QR/póster con NFC, sorteos por reseña y landing page.',t:['n8n','Apps Script','HTML/CSS','SEO local']},
  {n:'Chatbots y voicebots de agendación',cat:'ia',l:'chat',c:W('#EEF7F3','#16A36B','#0E2A20'),u:'whatsapp-agenda',m:'6 chatbots + 4 voicebots · 77% resuelto',d:'Asistentes por WhatsApp y recepcionistas de voz 24/7 que reservan citas y atienden a clientes en clínicas y negocios locales.',t:['Claude API','Vapi.ai','Twilio','n8n']},
- {n:'Captación de leads · despacho de abogados',cat:'ia',l:'dash',c:W('#F4F2FB','#5B47D6','#1A1440'),u:'leads-abogados',m:'+119% de facturación',d:'Cuatro flujos a medida con anuncios, audiencias de contactos previos, formulario breve y agenda automática con Cal.com.',t:['Make','n8n','Meta Ads','Cal.com']},
+ {n:'Captación de leads',cat:'ia',l:'dash',c:W('#F4F2FB','#5B47D6','#1A1440'),u:'leads-abogados',m:'+119% de facturación',d:'Cuatro flujos a medida con anuncios, audiencias de contactos previos, formulario breve y agenda automática con Cal.com.',t:['Make','n8n','Meta Ads','Cal.com']},
  {n:'Flujo multiagente con LangGraph',cat:'ia',l:'flow',c:W('#0F1B33','#7FA0FF','#DCE5FF'),u:'langgraph-crm',m:'Cualifica, decide y registra',d:'Un agente cualifica el lead, otro decide si agendar, derivar o descartar y otro lo registra en el CRM, con estado persistente.',t:['LangGraph','Python','n8n','CRM']},
  {n:'Agente MCP en AWS',cat:'ia',l:'flow',c:W('#FFF4EC','#E8742A','#2B1A0E'),u:'mcp-agent.aws',m:'Herramientas externas vía MCP',d:'Agente conectado a herramientas externas mediante MCP y desplegado en AWS con Python, PEP8 y pruebas.',t:['MCP','AWS Lambda','Python','pytest']},
- {n:'TFM · IA agéntica de voz',cat:'ia',l:'chat',c:W('#EEF4FF','#3559D6','#12254A'),u:'tfm-utamed',m:'Nota 9 · Mejor TFM de la edición',d:'Arquitectura agéntica e IPA para gestionar citas de una clínica de fisioterapia con Vapi.ai, Gemini 2.5 Flash y n8n.',t:['Vapi.ai','Gemini','n8n','IPA']},
  {n:'Menús digitales QR',cat:'ia',l:'menu',c:W('#FBF3EA','#C2502E','#2E140B'),u:'carta-digital',m:'7 locales · +25% de productos pedidos',d:'Cartas inteligentes con pedidos y pago integrado para bares, restaurantes y cafeterías, con alérgenos y calorías.',t:['QR','Stripe','HTML/JS']},
- {n:'Recuperación de suscriptores · AlvarBurn',cat:'ia',l:'dash',c:W('#F1F7FC','#1F86C8','#0B2233'),u:'comunidad',m:'67% de suscriptores recuperados',d:'Comunidad de pago propia (sin Patreon) con automatización de win-back por email y panel de métricas.',t:['n8n','Email','Dashboard']},
+ {n:'Recuperación de suscriptores',cat:'ia',l:'dash',c:W('#F1F7FC','#1F86C8','#0B2233'),u:'comunidad',m:'67% de suscriptores recuperados',d:'Comunidad de pago propia (sin Patreon) con automatización de win-back por email y panel de métricas.',t:['n8n','Email','Dashboard']},
  // Plataformas y apps
- {n:'Activital',logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'dash',c:W('#ECF7F6','#0F9A8C','#0C2A27'),u:'activital.ugr.es',url:'https://activital.ugr.es/',m:'+2.700 usuarios · DIRAYA y DRAGO',d:'Plataforma de ejercicio físico y salud de referencia en Andalucía, única conectada por completo con los sistemas sanitarios de Andalucía y Canarias. Product Owner del módulo de prescripción.',t:['React','Product Owner','Salesforce','UX']},
+ {n:'Activital',top:1,url:'https://activital.ugr.es/auth-sign-in',app:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.ActiVital',logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'dash',c:W('#ECF7F6','#0F9A8C','#0C2A27'),u:'activital.ugr.es',url:'https://activital.ugr.es/',m:'+2.700 usuarios · DIRAYA y DRAGO',d:'Plataforma y app de ejercicio físico y salud de referencia en Andalucía, única conectada por completo con los sistemas sanitarios de Andalucía y Canarias. Product Owner del módulo de prescripción.',t:['React','Product Owner','Salesforce','UX']},
  {n:'Sistema experto con avatares 3D',cat:'plat',l:'phone',c:W('#F1EFFC','#7A5AF0','#1E1543'),u:'activital/asesor',m:'Asesores virtuales integrados',d:'Asesores virtuales con avatares 3D para fomentar la actividad física en jóvenes, adultos y personas mayores dentro de Activital.',t:['IA','3D','Salud']},
- {n:'Activital Ceuta y Melilla',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-ceuta',m:'Versiones regionales',d:'Adaptación de la plataforma y sus apps a Ceuta y Melilla, con contenidos y centros propios.',t:['Plataforma','Multirregión']},
- {n:'Red PAPEF',cat:'plat',l:'cards',c:W('#F6F8EC','#7C9A12','#1F270A'),u:'red-papef',m:'Red de centros UAEFS',d:'Coordinación de los centros de la red, plan de marketing y difusión de Activital y coordinación del Talent Project 2023.',t:['Junta de Andalucía','UGR','Marketing']},
- {n:'MuveOn Academy',cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'play.google.com · MuveOn',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.MuveOn',m:'52 programas formativos · Play Store',d:'Plataforma educativa con catálogo de másteres: desarrollo, maquetación, edición y gestión, con sprints y checklists antes de cada release.',t:['App','eLearning','QA']},
- {n:'Activídate',logo:'actividate.webp',lb:'#F1F7EE',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'App en Play Store',d:'App de ejercicio físico y actividad saludable para el día a día.',t:['App móvil','Salud']},
- {n:'BioDM2',logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'split',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'biodm2.es',url:'https://biodm2.es/',m:'I+D+i UGR · Vithas',d:'Web y app de ejercicio terapéutico para personas con diabetes tipo II, en consorcio público-privado UGR-Vithas.',t:['Web','App','Investigación']},
+ {n:'Activital Ceuta',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-ceuta',m:'Versión regional para Ceuta',d:'Adaptación de la plataforma y la app de Activital a Ceuta, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Ceuta']},
+ {n:'Activital Melilla',top:1,logo:'activital.webp',lb:'#FFFFFF',fit:'contain',cat:'plat',l:'cards',c:W('#EEF6FB','#2386C9','#0B2333'),u:'activital-melilla',app:'https://apps.apple.com/us/app/-/id6748304837',m:'Versión regional para Melilla · App Store',d:'Adaptación de la plataforma y la app de Activital a Melilla, con sus propios centros, contenidos y profesionales.',t:['Plataforma','App','Melilla']},
+ {n:'Red PAPEF',top:1,cat:'plat',l:'cards',c:W('#F1F7EE','#4E9A2B','#15260C'),u:'redpapef.com',url:'https://redpapef.com/',m:'Red de profesionales sanitarios y del deporte',d:'Red para el intercambio de información y la coordinación entre profesionales sanitarios y del deporte dentro del Plan Andaluz de Prescripción de Ejercicio Físico, con mapa de Unidades Activas de Ejercicio Físico.',t:['Junta de Andalucía','UGR','Salud']},
+ {n:'MüveOn Academy',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'play.google.com · MuveOn',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.MuveOn',m:'52 programas formativos · Play Store',d:'Plataforma educativa con catálogo de másteres: desarrollo, maquetación, edición y gestión, con sprints y checklists antes de cada release.',t:['App','eLearning','QA']},
+ {n:'MüveOn',top:1,cat:'plat',l:'phone',c:W('#FFF1F1','#E0434B','#330C0E'),u:'muveon',m:'Ecosistema MüveOn',d:'Plataforma del ecosistema MüveOn de actividad física y salud desarrollado junto a Human Lab UGR.',t:['Plataforma','Salud']},
+ {n:'Activídate',top:1,logo:'actividate.webp',lb:'#F1F7EE',fit:'contain',cat:'plat',l:'phone',c:W('#EDF8EF','#26A443','#0C2A12'),u:'play.google.com · Activídate',url:'https://play.google.com/store/apps/details?id=com.HumanLabUGR.Actividate',m:'App en Play Store',d:'App de ejercicio físico y actividad saludable para el día a día.',t:['App móvil','Salud']},
+ {n:'BioDM2',top:1,logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'split',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'biodm2.es',url:'https://biodm2.es/',m:'I+D+i UGR · Vithas',d:'Web y app de ejercicio terapéutico para personas con diabetes tipo II, en consorcio público-privado UGR-Vithas.',t:['Web','App','Investigación']},
  {n:'App de BioDM2',logo:'biodm2.webp',lb:'#F1F7F8',fit:'contain',cat:'plat',l:'phone',c:W('#EEF5FC','#2D6FD1','#0E2140'),u:'play.google.com · BioDM2',url:'https://play.google.com/store/apps/details?id=com-HumanLabUGR.BioDM2',m:'App en Play Store',d:'App móvil del proyecto BioDM2 para acompañar el ejercicio terapéutico de personas con diabetes tipo II.',t:['App móvil','Salud','I+D+i']},
  {n:'Propulsia',cat:'plat',l:'center',c:W('#0D1630','#6E8BFF','#E6ECFF'),u:'propulsia.netlify.app',url:'https://propulsia.netlify.app',m:'Mi empresa de servicios de IA',d:'Diseño y desarrollo de la web de mi empresa: siete servicios con precios cerrados, sectores, método de trabajo y formulario de contacto.',t:['HTML/CSS','Netlify','Branding']},
  // Webs
@@ -632,7 +632,7 @@ const P = [
  {n:'Creador de iconos de escritorio',cat:'lab',l:'game',c:W('#F7F2EA','#D07A2C','#2A1C0E'),u:'icon-maker',m:'Ordena el PC en 5 minutos',d:'Herramienta que organiza el escritorio y crea iconos coherentes en minutos.',t:['Escritorio','Diseño']},
  {n:'Máquina captadora de leads',cat:'lab',l:'flow',c:W('#F2F4FB','#4A5BD6','#141A3D'),u:'lead-machine',m:'Ads + flujos de captación',d:'Sistema propio de captación con anuncios y flujos automáticos hacia agenda y CRM.',t:['Ads','n8n']},
 ];
-const CATS = [['all','Todos'],['ia','IA y automatización'],['plat','Plataformas y apps'],['web','Webs para clientes'],['cli','Clientes Propulsia'],['lab','Laboratorio 2026']];
+const CATS = [['all','Todos'],['top','Destacados'],['ia','IA y automatización'],['plat','Plataformas y apps'],['web','Webs para clientes'],['cli','Clientes Propulsia'],['lab','Laboratorio 2026']];
 const CATN = Object.fromEntries(CATS);
 
 const lines = (n,w=[90,75,82,60]) => Array.from({length:n},(_,i)=>`<div class="t" style="width:${w[i%w.length]}%"></div>`).join('');
@@ -761,7 +761,7 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
 }
 
 // Logo wall
-document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>`<div class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" title="${p.n}"><img src="${p.logo}" alt="${p.n}" decoding="async"></div>`).join('');
+document.getElementById('wall').innerHTML = P.filter((p,i,arr)=>p.logo&&p.cat!=='plat'&&arr.findIndex(q=>q.logo===p.logo)===i).map(p=>`<div class="${p.fit==='cover'?'cover':''}" style="background:${p.lb}" title="${p.n}"><img src="${p.logo}" alt="${p.n}" decoding="async"></div>`).join('');
 
 // Filters + grid
 const fwrap = document.getElementById('filters'), grid = document.getElementById('pgrid');
@@ -769,16 +769,16 @@ let cur='all', expanded=false;
 const colsNow=()=>innerWidth<=600?1:innerWidth<=980?2:3;
 const LIMIT=()=>colsNow()===1?6:colsNow()===2?8:12;
 function renderGrid(){
-  const all=P.filter(p=>cur==='all'||p.cat===cur);
+  const all=P.filter(p=>cur==='all'||p.cat===cur||(cur==='top'&&p.top)).slice().sort((a,b)=>(b.top||0)-(a.top||0));
   const list = expanded||all.length<=LIMIT()+2 ? all : all.slice(0,LIMIT());
   grid.innerHTML = list.map(p=>`
     <article class="card">${p.logo?logoPanel(p):(ART[p.n]?artPanel(p):mock(p))}
       <div class="body">
-        <span class="cat">${CATN[p.cat]}</span>
+        <span class="cat">${p.top?'<b class="topb">★ Destacado</b> ':''}${CATN[p.cat]}</span>
         <h3>${p.n}</h3>
         <span class="metric">${p.m}</span>
         <p>${p.d}</p>
-        ${(p.url||p.gmb)?`<div class="outs">${p.url?`<a class="out" href="${p.url}" target="_blank" rel="noopener">Ver proyecto <span class="arr">↗</span></a>`:''}${p.gmb?`<a class="out" href="${p.gmb}" target="_blank" rel="noopener">Ficha de Google <span class="arr">↗</span></a>`:''}</div>`:''}
+        ${(p.url||p.gmb||p.app)?`<div class="outs">${p.url?`<a class="out" href="${p.url}" target="_blank" rel="noopener">Ver proyecto <span class="arr">↗</span></a>`:''}${p.app?`<a class="out" href="${p.app}" target="_blank" rel="noopener">Ver app <span class="arr">↗</span></a>`:''}${p.gmb?`<a class="out" href="${p.gmb}" target="_blank" rel="noopener">Ficha de Google <span class="arr">↗</span></a>`:''}</div>`:''}
         <div class="tags">${p.t.map(t=>`<i>${t}</i>`).join('')}</div>
       </div>
     </article>`).join('') + moreCell(all.length,list.length);
@@ -793,7 +793,7 @@ function moreCell(total,shown){
 let rz; addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(renderGrid,200);});
 CATS.forEach(([k,label])=>{
   const b=document.createElement('button');b.type='button';b.id='f-'+k;
-  const n = k==='all'?P.length:P.filter(p=>p.cat===k).length;
+  const n = k==='all'?P.length:k==='top'?P.filter(p=>p.top).length:P.filter(p=>p.cat===k).length;
   b.innerHTML=`${label}<span>${n}</span>`;b.setAttribute('aria-pressed',k===cur);
   b.onclick=()=>{cur=k;expanded=false;[...fwrap.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderGrid();};
   fwrap.appendChild(b);
@@ -808,7 +808,7 @@ const TL = [
  ['2020',[['2020 – 2024','Grado en Ingeniería Informática','UTAMED · Becado por mejor expediente']],[]],
  ['2023',[],[['Feb 2023 – Oct 2026','Product Owner y Project Manager · Activital & PAPEF','UGR, iMUDS, EMERGE, Junta de Andalucía y Canarias. Roadmap en React, integraciones con DIRAYA y DRAGO, QA y UX.','+2.700 usuarios'],['Mar 2023 – hoy','AI Solutions y desarrollador freelance','Agentes de voz y chat, automatizaciones y SEO local para clientes reales.','18 sistemas activos'],['2023 – 2026','Tutor de contenido digital','Escuela Andaluza de Salud Pública y MuveOn Academy: formación a sanitarios y módulos de IA y tecnología.']]],
  ['2025',[['2025','IA y Big Data · AI Specialist · Ciberseguridad','Nebrija, Racks, UPC y Femxa']],[['2025 – 2026','Reseña Fácil','Plataforma propia de reputación y SEO local para negocios.','65 negocios']]],
- ['2026',[['Jul 2026','Máster en Inteligencia Artificial','UTAMED · Mejor expediente y mejor TFM de la edición, nota 9','Mejor TFM']],[['2026','Propulsia','Dirijo Propulsia, mi empresa de servicios de IA para negocios, con Reseña Fácil incluido como uno de los 9 servicios que ofrezco:','9 servicios',['Páginas web','Reseña Fácil','Chatbot de WhatsApp','Recepcionista IA por voz','Avatares IA','Agenda-Llena','Carta Digital','Software a medida','Consultoría con sistema experto']]]],
+ ['2026',[['Jul 2026','Máster en Inteligencia Artificial','UTAMED · Mejor expediente. TFM sobre IA agéntica de voz para automatizar citas (Vapi.ai, Gemini y n8n), nota 9 y mejor TFM de la edición','Mejor TFM']],[['2026','Propulsia','Dirijo Propulsia, mi empresa de servicios de IA para negocios, con Reseña Fácil incluido como uno de los 9 servicios que ofrezco:','9 servicios',['Páginas web','Reseña Fácil','Chatbot de WhatsApp','Recepcionista IA por voz','Avatares IA','Agenda-Llena','Carta Digital','Software a medida','Consultoría con sistema experto']]]],
 ];
 const ev=(e,pro)=>`<div class="ev${pro?' pro':''}"><small>${e[0]}</small><h3>${e[1]}</h3><p>${e[2]}</p>${e[4]?`<ul class="svl">${e[4].map(x=>`<li>${x}</li>`).join('')}</ul>`:''}${e[3]?`<span class="chip">${e[3]}</span>`:''}</div>`;
 document.getElementById('tl').innerHTML = TL.map(([y,l,r],i)=>`<div class="yr rv"><div class="lane l">${l.map(e=>ev(e)).join('')}</div><div class="y${i===TL.length-1?' now':''}">${y}</div><div class="lane">${r.map(e=>ev(e,1)).join('')}</div></div>`).join('');
